@@ -154,6 +154,15 @@ function InteractiveParticles({
 }: Required<HeroParticleSceneProps>) {
   const { viewport } = useThree();
   const pointsRef = useRef<THREE.Points>(null);
+  const mouseMovedRef = useRef(false);
+
+  useEffect(() => {
+    const handleMouseMove = () => {
+      mouseMovedRef.current = true;
+    };
+    window.addEventListener("pointermove", handleMouseMove);
+    return () => window.removeEventListener("pointermove", handleMouseMove);
+  }, []);
 
   // Soft circular glow texture for particles
   const particleTexture = useMemo(() => {
@@ -330,7 +339,7 @@ function InteractiveParticles({
       let pushX = 0;
       let pushY = 0;
 
-      if (dist < repelRadius && dist > 0.02) {
+      if (mouseMovedRef.current && dist < repelRadius && dist > 0.02) {
         const force = (repelRadius - dist) / repelRadius;
         pushX = (dx / dist) * force * 0.32;
         pushY = (dy / dist) * force * 0.32;

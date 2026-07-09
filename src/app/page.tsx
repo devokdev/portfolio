@@ -197,50 +197,45 @@ export default function Home() {
   ];
 
   // Projects Data
-  const projects = [
-    {
-      id: "01",
-      title: "EAOS Simplified",
-      subtitle: "AI-Assisted Email Operations Platform",
-      tech: ["FastAPI", "React.js", "PostgreSQL", "SMTP/IMAP"],
-      metric: "40% Efficiency Increase",
-      desc: "Engineered AI-powered outreach automation platform supporting 1K+ workflows with batch sending, inbox synchronization, and thread-aware response pipelines.",
-      github: "https://github.com",
-      live: "https://github.com",
-      icon: <Mail className="w-12 h-12 text-zinc-700 dark:text-zinc-300" />
-    },
-    {
-      id: "02",
-      title: "KishanBhai",
-      subtitle: "AI Agricultural Assistance Platform",
-      tech: ["React.js", "Next.js", "Firebase", "Gemini AI", "Flutter"],
-      metric: "IIT Ropar Incubation Support",
-      desc: "Multilingual AI-powered platform featuring crop disease detection, weather forecasts, and voice assistance across 5 Indian languages to mitigate crop loss.",
-      github: "https://github.com",
-      live: "https://github.com",
-      icon: <Compass className="w-12 h-12 text-zinc-700 dark:text-zinc-300" />
-    },
-    {
-      id: "03",
-      title: "Codebase Intelligence",
-      subtitle: "Semantic Retrieval Engine",
-      tech: ["Python", "FastAPI", "FAISS", "PostgreSQL", "Docker"],
-      metric: "35% Search Latency Reduction",
-      desc: "FastAPI microservice following clean architecture, optimizing FAISS vector search, yielding +8.4% ROUGE-L and +47% domain alignment score.",
-      github: "https://github.com",
-      live: "https://github.com",
-      icon: <Cpu className="w-12 h-12 text-zinc-700 dark:text-zinc-300" />
-    }
-  ];
+    const projects = [
+      {
+        id: "01",
+        title: "EAOS Simplified",
+        subtitle: "AI-Assisted Email Operations Platform",
+        tech: ["FastAPI", "React.js", "PostgreSQL", "SMTP/IMAP"],
+        metric: "40% Efficiency Increase",
+        desc: "Engineered AI-powered outreach automation platform supporting 1K+ workflows with batch sending, inbox synchronization, and thread-aware response pipelines.",
+        github: "https://github.com/devokdev/EAOS_Simplified",
+        live: "https://eaos-web-chi.vercel.app/"
+      },
+      {
+        id: "02",
+        title: "KishanBhai",
+        subtitle: "AI Agricultural Assistance Platform",
+        tech: ["React.js", "Next.js", "Firebase", "Gemini AI", "Flutter"],
+        metric: "IIT Ropar Incubation Support",
+        desc: "Multilingual AI-powered platform featuring crop disease detection, weather forecasts, and voice assistance across 5 Indian languages to mitigate crop loss.",
+        github: "https://github.com/devokdev/KishanBhai",
+        live: "https://kishan-bhai.vercel.app/"
+      },
+      {
+        id: "03",
+        title: "Codebase Intelligence",
+        subtitle: "Semantic Retrieval Engine",
+        tech: ["Python", "FastAPI", "FAISS", "PostgreSQL", "Docker"],
+        metric: "35% Search Latency Reduction",
+        desc: "FastAPI microservice following clean architecture, optimizing FAISS vector search, yielding +8.4% ROUGE-L and +47% domain alignment score.",
+        github: "https://github.com/devokdev/Codebase-explanator",
+        live: "https://github.com/devokdev/Codebase-explanator"
+      }
+    ];
 
   // Achievements Data
   const achievements = [
     { id: "01", title: "Google Agentic AI Hackathon", role: "Finalist 2025" },
     { id: "02", title: "IIT Ropar GenAI Hackathon", role: "3rd Place Winner" },
-    { id: "03", title: "Sopra Steria AI Project", role: "Enterprise Incubation" },
-    { id: "04", title: "Amity Innovation Challenge", role: "Top 8 Finalist 2025" },
-    { id: "05", title: "Academic Excellence Scholarship", role: "CSE Merit Scholar" },
-    { id: "06", title: "Consistent Performer", role: "B.Tech CGPA: 8.72/10.0" }
+    { id: "03", title: "Amity Innovation Challenge", role: "Top 8 Finalist 2025" },
+    { id: "04", title: "Academic Excellence & Performance", role: "CSE Merit Scholar | B.Tech CGPA: 8.72/10.0" }
   ];
 
   return (
@@ -500,7 +495,7 @@ export default function Home() {
             </div>
             
             <a 
-              href="https://github.com" 
+              href="https://github.com/devokdev/" 
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-xs font-mono tracking-widest uppercase border-b border-zinc-400 dark:border-zinc-600 hover:border-zinc-900 dark:hover:border-zinc-100 pb-1 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
@@ -509,55 +504,107 @@ export default function Home() {
             </a>
           </div>
 
-          {/* Large Project exhibits - premium card grid */}
+          {/* Large Project exhibits - technical blueprint modules */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {projects.map((project, idx) => (
               <motion.div
                 key={project.id}
-                initial={{ opacity: 0, y: 40 }}
+                initial="initial"
+                whileHover="hover"
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 animate={{ y: [0, -5, 0] }}
+                variants={{
+                  initial: { opacity: 0, y: 40 },
+                  hover: { y: -10, scale: 1.02 }
+                }}
                 transition={{
                   y: { repeat: Infinity, duration: 6 + idx * 0.5, ease: "easeInOut" },
                   opacity: { duration: 0.8, delay: idx * 0.15 },
                   default: { duration: 0.8, delay: idx * 0.15 }
                 }}
-                whileHover={{ y: -10, scale: 1.02 }}
-                className="flex flex-col justify-between min-h-[460px] p-8 bg-[#fbfbfa] dark:bg-[#0f0f0f] border border-black/5 dark:border-white/5 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 relative z-10"
+                className="flex flex-col justify-between min-h-[480px] p-8 bg-[#fbfbfa] dark:bg-[#0f0f0f] border border-black/5 dark:border-white/5 rounded-none shadow-sm hover:shadow-2xl transition-all duration-300 relative z-10 overflow-hidden"
               >
-                <div>
-                  <div className="flex justify-between items-start mb-6">
-                    <span className="text-xs font-mono text-zinc-400">{project.id}</span>
-                    <div className="text-zinc-550 dark:text-zinc-400 p-1">
-                      {project.icon}
-                    </div>
-                  </div>
+                {/* Dotted Grid Background */}
+                <div className="absolute inset-0 bg-[radial-gradient(rgba(0,0,0,0.015)_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.015)_1px,transparent_1px)] [background-size:12px_12px] pointer-events-none z-0" />
 
-                  <h3 className="text-2xl font-bold font-sans text-zinc-900 dark:text-white leading-tight">
-                    {project.title}
-                  </h3>
-                  <p className="text-xs font-mono text-zinc-450 mt-1 uppercase tracking-wider">
-                    {project.subtitle}
-                  </p>
+                {/* Laser scan sweep line */}
+                <motion.div 
+                  variants={{
+                    initial: { top: "-10%", opacity: 0 },
+                    hover: { top: "110%", opacity: [0, 1, 1, 0], transition: { duration: 1.2, ease: "easeInOut" } }
+                  }}
+                  className="absolute inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent pointer-events-none z-10"
+                />
 
-                  <div className="my-6 border-y border-zinc-200/10 dark:border-zinc-800/20 py-3">
-                    <span className="text-[10px] font-mono text-zinc-450 uppercase tracking-widest block mb-1">Key Highlight</span>
-                    <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-450">
-                      {project.metric}
+                {/* Cyber Blueprint L-Corners */}
+                <motion.div 
+                  variants={{
+                    initial: { width: 6, height: 6, borderColor: "rgba(120, 120, 120, 0.25)" },
+                    hover: { width: 14, height: 14, borderColor: "rgba(16, 185, 129, 0.7)" }
+                  }}
+                  className="absolute top-0 left-0 border-t border-l pointer-events-none transition-colors duration-200"
+                />
+                <motion.div 
+                  variants={{
+                    initial: { width: 6, height: 6, borderColor: "rgba(120, 120, 120, 0.25)" },
+                    hover: { width: 14, height: 14, borderColor: "rgba(16, 185, 129, 0.7)" }
+                  }}
+                  className="absolute top-0 right-0 border-t border-r pointer-events-none transition-colors duration-200"
+                />
+                <motion.div 
+                  variants={{
+                    initial: { width: 6, height: 6, borderColor: "rgba(120, 120, 120, 0.25)" },
+                    hover: { width: 14, height: 14, borderColor: "rgba(16, 185, 129, 0.7)" }
+                  }}
+                  className="absolute bottom-0 left-0 border-b border-l pointer-events-none transition-colors duration-200"
+                />
+                <motion.div 
+                  variants={{
+                    initial: { width: 6, height: 6, borderColor: "rgba(120, 120, 120, 0.25)" },
+                    hover: { width: 14, height: 14, borderColor: "rgba(16, 185, 129, 0.7)" }
+                  }}
+                  className="absolute bottom-0 right-0 border-b border-r pointer-events-none transition-colors duration-200"
+                />
+
+                <div className="relative z-10">
+                  <div className="flex justify-between items-center mb-6 border-b border-zinc-200/10 dark:border-zinc-800/20 pb-4">
+                    <span className="text-[10px] font-mono tracking-widest text-zinc-400 dark:text-zinc-500 uppercase">// SYS_MOD_{project.id}</span>
+                    <span className="text-[9px] font-mono px-2 py-0.5 border border-zinc-200/20 dark:border-zinc-850 bg-zinc-500/5 text-zinc-450 dark:text-zinc-500 rounded-none uppercase">
+                      Active
                     </span>
                   </div>
 
-                  <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                  {/* Header Title with min-height for horizontal line alignment */}
+                  <div className="min-h-[84px] flex flex-col justify-start">
+                    <h3 className="text-2xl font-bold font-sans text-zinc-900 dark:text-white leading-tight">
+                      {project.title}
+                    </h3>
+                    <p className="text-xs font-mono text-zinc-450 mt-1 uppercase tracking-wider">
+                      {project.subtitle}
+                    </p>
+                  </div>
+
+                  <div className="my-6 border-y border-zinc-200/10 dark:border-zinc-800/20 py-3 flex justify-between items-center">
+                    <div>
+                      <span className="text-[9px] font-mono text-zinc-450 uppercase tracking-widest block">Key Highlight</span>
+                      <span className="text-xs font-mono font-bold text-zinc-800 dark:text-zinc-200 uppercase mt-0.5 block">
+                        {project.metric}
+                      </span>
+                    </div>
+                    <span className="w-1.5 h-1.5 bg-emerald-500 animate-pulse" />
+                  </div>
+
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed min-h-[72px]">
                     {project.desc}
                   </p>
                 </div>
 
-                <div className="mt-8 space-y-4">
+                <div className="mt-8 space-y-4 relative z-10">
                   {/* Tech chips */}
                   <div className="flex flex-wrap gap-1.5">
                     {project.tech.map((t, tIdx) => (
-                      <span key={tIdx} className="text-[10px] font-mono px-2 py-0.5 border border-zinc-200/10 dark:border-zinc-800/20 bg-zinc-500/5 rounded text-zinc-500 dark:text-zinc-400">
+                      <span key={tIdx} className="text-[10px] font-mono px-2 py-0.5 border border-zinc-200/10 dark:border-zinc-800/20 bg-zinc-500/5 rounded-none text-zinc-500 dark:text-zinc-400">
                         {t}
                       </span>
                     ))}
@@ -603,36 +650,38 @@ export default function Home() {
             </h2>
           </div>
 
-          {/* Plaque collection - premium cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Editorial timeline table - flat, premium row items */}
+          <div className="flex flex-col border-t border-zinc-200/10 dark:border-zinc-800/20">
             {achievements.map((item, idx) => (
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                animate={{ y: [0, -4, 0] }}
-                transition={{
-                  y: { repeat: Infinity, duration: 5.5 + idx * 0.4, ease: "easeInOut" },
-                  opacity: { duration: 0.6, delay: idx * 0.1 },
-                  default: { duration: 0.6, delay: idx * 0.1 }
-                }}
-                whileHover={{ y: -8, scale: 1.02 }}
-                className="p-6 flex flex-col justify-between min-h-[160px] bg-[#fbfbfa] dark:bg-[#0f0f0f] border border-black/5 dark:border-white/5 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 relative z-10"
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                whileHover={{ x: 8 }}
+                className="grid grid-cols-12 gap-4 py-8 items-center border-b border-zinc-200/10 dark:border-zinc-800/20 group cursor-pointer transition-all duration-300 pl-2 hover:pl-4 border-l-2 border-l-transparent hover:border-l-zinc-900 dark:hover:border-l-white"
               >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-mono text-zinc-400">Award // 0{idx+1}</span>
-                    <Award className="w-4 h-4 text-zinc-400" />
-                  </div>
-                  <h3 className="text-lg font-bold font-sans text-zinc-900 dark:text-white leading-tight">
+                {/* Index / Number */}
+                <div className="col-span-12 md:col-span-2 text-xs font-mono text-zinc-400 dark:text-zinc-500">
+                  Award // 0{idx+1}
+                </div>
+
+                {/* Milestone Title */}
+                <div className="col-span-12 md:col-span-6">
+                  <h3 className="text-lg md:text-xl font-bold font-sans text-zinc-900 dark:text-white transition-colors duration-300 group-hover:text-black dark:group-hover:text-white">
                     {item.title}
                   </h3>
                 </div>
-                <div className="mt-8 pt-2">
-                  <span className="text-xs font-mono font-bold uppercase text-zinc-500 dark:text-zinc-400">
-                    {item.role}
-                  </span>
+
+                {/* Milestone Details */}
+                <div className="col-span-10 md:col-span-3 text-xs md:text-sm font-mono text-zinc-500 dark:text-zinc-400">
+                  {item.role}
+                </div>
+
+                {/* Icon Action Indicator */}
+                <div className="col-span-2 md:col-span-1 flex justify-end text-zinc-400 dark:text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors">
+                  <Award className="w-5 h-5 transition-transform duration-300 group-hover:rotate-12" />
                 </div>
               </motion.div>
             ))}
@@ -762,7 +811,7 @@ export default function Home() {
 
                 <div className="flex gap-4 pt-6 border-t border-zinc-800">
                   <a 
-                    href="https://github.com" 
+                    href="https://github.com/devokdev/" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="p-3 border border-zinc-800 rounded bg-[#1f1f1f] text-zinc-400 hover:text-white hover:border-zinc-700 hover:scale-105 transition-all duration-300"
@@ -770,7 +819,7 @@ export default function Home() {
                     <GithubIcon className="w-4 h-4" />
                   </a>
                   <a 
-                    href="https://linkedin.com" 
+                    href="https://www.linkedin.com/in/kartavyadev/" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="p-3 border border-zinc-800 rounded bg-[#1f1f1f] text-zinc-400 hover:text-white hover:border-zinc-700 hover:scale-105 transition-all duration-300"
