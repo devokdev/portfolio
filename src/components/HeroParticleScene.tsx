@@ -28,6 +28,7 @@ interface HeroParticleSceneProps {
   colorBase?: string;         // Hex code base color
   colorHighlight?: string;    // Hex code highlighted color
   repelRadius?: number;       // Radius for cursor deflection
+  isReady?: boolean;
 }
 
 interface WordBounds {
@@ -151,18 +152,30 @@ function InteractiveParticles({
   colorBase,
   colorHighlight,
   repelRadius,
-}: Required<HeroParticleSceneProps>) {
-  const { viewport } = useThree();
+  isReady,
+}: Required<Omit<HeroParticleSceneProps, "isReady">> & { isReady: boolean }) {
+  const { viewport, gl } = useThree();
   const pointsRef = useRef<THREE.Points>(null);
   const mouseMovedRef = useRef(false);
 
   useEffect(() => {
-    const handleMouseMove = () => {
+    const canvasEl = gl.domElement;
+    if (!canvasEl) return;
+
+    const handlePointerMove = () => {
       mouseMovedRef.current = true;
     };
-    window.addEventListener("pointermove", handleMouseMove);
-    return () => window.removeEventListener("pointermove", handleMouseMove);
-  }, []);
+    const handlePointerLeave = () => {
+      mouseMovedRef.current = false;
+    };
+
+    canvasEl.addEventListener("pointermove", handlePointerMove, { passive: true });
+    canvasEl.addEventListener("pointerleave", handlePointerLeave, { passive: true });
+    return () => {
+      canvasEl.removeEventListener("pointermove", handlePointerMove);
+      canvasEl.removeEventListener("pointerleave", handlePointerLeave);
+    };
+  }, [gl]);
 
   // Soft circular glow texture for particles
   const particleTexture = useMemo(() => {
@@ -250,7 +263,12 @@ function InteractiveParticles({
     const mouseY = (state.pointer.y * viewport.height) / 2;
 
     const totalCycle = holdDuration + disperseDuration + morphDuration;
-    s.cycleTimer += delta;
+    if (!isReady) {
+      s.cycleTimer = 0;
+      s.currentWordIndex = 0;
+    } else {
+      s.cycleTimer += delta;
+    }
     if (s.cycleTimer >= totalCycle) {
       s.cycleTimer = 0;
       s.currentWordIndex = (s.currentWordIndex + 1) % words.length;
@@ -403,6 +421,7 @@ export default function HeroParticleScene({
   colorBase = "#B8B8B8",
   colorHighlight = "#FFFFFF",
   repelRadius = 0.72,
+  isReady = true,
 }: HeroParticleSceneProps) {
   const [activeCount, setActiveCount] = useState(particleCount);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -451,6 +470,7 @@ export default function HeroParticleScene({
           colorBase={colorBase}
           colorHighlight={colorHighlight}
           repelRadius={repelRadius}
+          isReady={isReady}
         />
       </Canvas>
     </div>

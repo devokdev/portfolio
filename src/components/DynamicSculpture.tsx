@@ -15,6 +15,6 @@ const HeroParticleScene = dynamic(
   }
 );
 
-export default function DynamicSculpture({ isDark }: { isDark: boolean }) {
-  return <HeroParticleScene />;
+export default function DynamicSculpture({ isDark, isReady }: { isDark: boolean; isReady: boolean }) {
+  return <HeroParticleScene isReady={isReady} />;
 }

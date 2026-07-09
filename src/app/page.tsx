@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -46,6 +46,26 @@ import InteractiveStats from "@/components/InteractiveStats";
 export default function Home() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+
+  // System Loader States
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [showLoader, setShowLoader] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLoadingProgress((prev) => {
+        if (prev >= 10) {
+          clearInterval(interval);
+          setTimeout(() => {
+            setShowLoader(false);
+          }, 450);
+          return 10;
+        }
+        return prev + 1;
+      });
+    }, 150);
+    return () => clearInterval(interval);
+  }, []);
 
   // 3D Parallax Tilt Portrait Casing States
   const [portraitTilt, setPortraitTilt] = useState({ x: 0, y: 0 });
@@ -240,6 +260,73 @@ export default function Home() {
 
   return (
     <div className="flex-1 w-full relative z-0 select-none">
+      <AnimatePresence>
+        {showLoader && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0, y: -30, transition: { duration: 0.6, ease: "easeInOut" } }}
+            className="fixed inset-0 bg-[#070707] z-[999999] flex flex-col items-center justify-center select-none cursor-none"
+          >
+            {/* Micro-grid background for technical feel */}
+            <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.015)_1.5px,transparent_1.5px)] [background-size:24px_24px] pointer-events-none" />
+
+            {/* Laser scan sweep line in background */}
+            <motion.div
+              animate={{ top: ["-10%", "110%"] }}
+              transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+              className="absolute inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent pointer-events-none"
+            />
+
+            {/* Center Plaque Box with project-card style L-corners */}
+            <div className="relative w-80 p-8 bg-zinc-950/75 border border-zinc-800/40 backdrop-blur-md flex flex-col items-center text-center">
+              
+              {/* Cyber Blueprint L-Corners */}
+              <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-zinc-700" />
+              <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-zinc-700" />
+              <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-zinc-700" />
+              <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-zinc-700" />
+
+              {/* Top telemetry tag */}
+              <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest mb-6 block">
+                // BOOT_SEQUENCE: INITIALIZING
+              </span>
+
+              {/* System Load Status */}
+              <div className="h-6 overflow-hidden mb-6 flex items-center justify-center">
+                <span className="text-[10px] font-mono text-zinc-300 tracking-wider">
+                  {loadingProgress < 3 && "CONNECTING INTERFACES..."}
+                  {loadingProgress >= 3 && loadingProgress < 7 && "LOADING ASSETS & MODELS..."}
+                  {loadingProgress >= 7 && loadingProgress < 10 && "COMPILING BLUEPRINTS..."}
+                  {loadingProgress === 10 && "SYSTEM ACTIVE"}
+                </span>
+              </div>
+
+              {/* Game Healthbar Progress Segments */}
+              <div className="flex gap-1 w-full justify-between items-center mb-6">
+                {Array.from({ length: 10 }).map((_, i) => {
+                  const isActive = i < loadingProgress;
+                  return (
+                    <div
+                      key={i}
+                      className={`h-4 flex-1 transition-all duration-300 rounded-none ${
+                        isActive
+                          ? "bg-zinc-100 shadow-[0_0_8px_rgba(255,255,255,0.4)]"
+                          : "bg-zinc-900 border border-zinc-850"
+                      }`}
+                    />
+                  );
+                })}
+              </div>
+
+              {/* Percentage Counter */}
+              <span className="text-[10px] font-mono text-zinc-400">
+                {Math.min(loadingProgress * 10, 100)}% LOADED
+              </span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <Navbar />
 
       {/* 1. HERO SECTION */}
@@ -309,7 +396,7 @@ export default function Home() {
             {/* Right Column: 3D Centerpiece */}
             <div className="lg:col-span-5 h-[350px] md:h-[500px] w-full flex items-center justify-center relative">
               <div className="w-full h-full relative z-10">
-                <DynamicSculpture isDark={isDark} />
+                <DynamicSculpture isDark={isDark} isReady={!showLoader} />
               </div>
             </div>
           </div>
