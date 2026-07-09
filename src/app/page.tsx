@@ -41,10 +41,116 @@ import Navbar from "@/components/Navbar";
 import DynamicSculpture from "@/components/DynamicSculpture";
 import { useTheme } from "@/components/ThemeProvider";
 import TechKeyboard from "@/components/TechKeyboard";
+import InteractiveStats from "@/components/InteractiveStats";
 
 export default function Home() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+
+  // 3D Parallax Tilt Portrait Casing States
+  const [portraitTilt, setPortraitTilt] = useState({ x: 0, y: 0 });
+  const [portraitGlow, setPortraitGlow] = useState({ x: 0, y: 0, opacity: 0 });
+
+  const handlePortraitMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((centerY - y) / centerY) * 12; // tilt max 12 degrees
+    const rotateY = ((x - centerX) / centerX) * 12;
+    setPortraitTilt({ x: rotateX, y: rotateY });
+    setPortraitGlow({ x, y, opacity: 0.12 });
+  };
+
+  const handlePortraitMouseLeave = () => {
+    setPortraitTilt({ x: 0, y: 0 });
+    setPortraitGlow((prev) => ({ ...prev, opacity: 0 }));
+  };
+
+  // Polaroid Camera Click & Flash Effects
+  const [hasFlashed, setHasFlashed] = useState(false);
+  const [showFlash, setShowFlash] = useState(false);
+
+  const playCameraShutterSound = () => {
+    if (typeof window === "undefined") return;
+    try {
+      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioContextClass) return;
+      const ctx = new AudioContextClass();
+
+      // 1. Shutter Snap (Short noise burst)
+      const bufferSize = ctx.sampleRate * 0.04;
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = Math.random() * 2 - 1;
+      }
+      const noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+
+      const noiseFilter = ctx.createBiquadFilter();
+      noiseFilter.type = "bandpass";
+      noiseFilter.frequency.setValueAtTime(1000, ctx.currentTime);
+      noiseFilter.Q.setValueAtTime(3, ctx.currentTime);
+
+      const noiseGain = ctx.createGain();
+      noiseGain.gain.setValueAtTime(0.2, ctx.currentTime);
+      noiseGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.035);
+
+      noise.connect(noiseFilter);
+      noiseFilter.connect(noiseGain);
+      noiseGain.connect(ctx.destination);
+
+      // 2. Mechanical Clack (mirror action)
+      const osc = ctx.createOscillator();
+      const oscGain = ctx.createGain();
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(160, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(50, ctx.currentTime + 0.08);
+
+      oscGain.gain.setValueAtTime(0.3, ctx.currentTime);
+      oscGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.075);
+
+      osc.connect(oscGain);
+      oscGain.connect(ctx.destination);
+
+      // 3. Winding Motor hum (film ejection)
+      const motorOsc = ctx.createOscillator();
+      const motorGain = ctx.createGain();
+      motorOsc.type = "sawtooth";
+      motorOsc.frequency.setValueAtTime(100, ctx.currentTime + 0.08);
+      motorOsc.frequency.linearRampToValueAtTime(140, ctx.currentTime + 0.4);
+
+      motorGain.gain.setValueAtTime(0, ctx.currentTime);
+      motorGain.gain.setValueAtTime(0.03, ctx.currentTime + 0.08);
+      motorGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+
+      motorOsc.connect(motorGain);
+      motorGain.connect(ctx.destination);
+
+      noise.start();
+      osc.start();
+      motorOsc.start(ctx.currentTime + 0.08);
+
+      noise.stop(ctx.currentTime + 0.04);
+      osc.stop(ctx.currentTime + 0.08);
+      motorOsc.stop(ctx.currentTime + 0.4);
+    } catch (e) {
+      console.warn("Failed to play camera shutter sound", e);
+    }
+  };
+
+  const triggerCameraFlash = () => {
+    if (hasFlashed) return;
+    setHasFlashed(true);
+    setShowFlash(true);
+    playCameraShutterSound();
+    setTimeout(() => {
+      setShowFlash(false);
+    }, 450);
+  };
 
   // Form State
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
@@ -138,118 +244,91 @@ export default function Home() {
   ];
 
   return (
-    <div className="flex-1 w-full relative z-10 select-none">
+    <div className="flex-1 w-full relative z-0 select-none">
       <Navbar />
 
       {/* 1. HERO SECTION */}
       <section 
         id="home" 
-        className="min-h-screen flex flex-col justify-center pt-24 px-6 md:px-12 max-w-7xl mx-auto relative overflow-hidden transition-colors duration-1000"
+        className="min-h-screen flex flex-col justify-center pt-24 px-6 md:px-12 max-w-7xl mx-auto relative z-0 overflow-hidden transition-colors duration-1000"
         style={{ backgroundColor: "var(--color-home)" }}
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center flex-1 py-12">
-          {/* Left Column: Typography */}
-          <div className="lg:col-span-7 flex flex-col justify-center sm:text-left text-center">
-            <motion.p 
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-xs md:text-sm font-mono tracking-widest text-zinc-400 dark:text-zinc-500 uppercase mb-4"
-            >
-              Hello, I&apos;m
-            </motion.p>
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.3 }}
-              className="text-5xl md:text-7xl font-sans font-bold tracking-tight text-zinc-900 dark:text-white leading-[1.05]"
-            >
-              Kartavya<br />
-              <span className="text-zinc-400 dark:text-zinc-600">Dev</span>
-            </motion.h1>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.5 }}
-              className="mt-6 border-l-2 border-zinc-200 dark:border-zinc-800 pl-4 py-1 text-left max-w-sm"
-            >
-              <p className="text-xs font-mono text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
-                Product Engineer / AI Builder / Full Stack Developer
-              </p>
-            </motion.div>
-
-            <motion.p 
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="mt-8 text-sm md:text-base text-zinc-600 dark:text-zinc-400 max-w-md leading-relaxed"
-            >
-              I build intelligent systems and digital products that solve real-world problems. Turning ideas into impact through code and design.
-            </motion.p>
-
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="mt-10 flex flex-wrap gap-4 justify-center sm:justify-start"
-            >
-              <button 
-                onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
-                className="flex items-center gap-3 bg-zinc-900 hover:bg-zinc-800 text-zinc-50 dark:bg-zinc-100 dark:hover:bg-zinc-200 dark:text-zinc-900 px-6 py-3.5 rounded-md font-mono text-xs uppercase tracking-wider transition-all duration-300 group shadow-md"
+        <div className="relative z-10 w-full h-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center flex-1 py-12">
+            {/* Left Column: Typography */}
+            <div className="lg:col-span-7 flex flex-col justify-center sm:text-left text-center">
+              <motion.p 
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="text-xs md:text-sm font-mono tracking-widest text-zinc-400 dark:text-zinc-500 uppercase mb-4"
               >
-                Explore My Work 
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </motion.div>
+                Hello, I&apos;m
+              </motion.p>
+              <motion.h1 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.3 }}
+                className="text-5xl md:text-7xl font-sans font-bold tracking-tight text-zinc-900 dark:text-white leading-[1.05]"
+              >
+                Kartavya<br />
+                <span className="text-zinc-400 dark:text-zinc-650">Dev</span>
+              </motion.h1>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 0.5 }}
+                className="mt-6 border-l-2 border-zinc-200 dark:border-zinc-800 pl-4 py-1 text-left max-w-sm"
+              >
+                <p className="text-xs font-mono text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
+                  Product Engineer / AI Builder / Full Stack Developer
+                </p>
+              </motion.div>
+
+              <motion.p 
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="mt-8 text-sm md:text-base text-zinc-600 dark:text-zinc-400 max-w-md leading-relaxed"
+              >
+                I build intelligent systems and digital products that solve real-world problems. Turning ideas into impact through code and design.
+              </motion.p>
+
+              <motion.div 
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.8 }}
+                className="mt-10 flex flex-wrap gap-4 justify-center sm:justify-start"
+              >
+                <button 
+                  onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
+                  className="flex items-center gap-3 bg-zinc-900 hover:bg-zinc-800 text-zinc-50 dark:bg-zinc-100 dark:hover:bg-zinc-200 dark:text-zinc-900 px-6 py-3.5 rounded-md font-mono text-xs uppercase tracking-wider transition-all duration-300 group shadow-md"
+                >
+                  Explore My Work 
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </motion.div>
+            </div>
+
+            {/* Right Column: 3D Centerpiece */}
+            <div className="lg:col-span-5 h-[350px] md:h-[500px] w-full flex items-center justify-center relative">
+              <div className="w-full h-full relative z-10">
+                <DynamicSculpture isDark={isDark} />
+              </div>
+            </div>
           </div>
 
-          {/* Right Column: 3D Centerpiece */}
-          <div className="lg:col-span-5 h-[350px] md:h-[500px] w-full flex items-center justify-center relative">
-            <div className="absolute inset-0 z-0 bg-radial-gradient from-zinc-200/20 dark:from-zinc-900/40 to-transparent pointer-events-none rounded-full blur-3xl" />
-            <div className="w-full h-full relative z-10">
-              <DynamicSculpture isDark={isDark} />
-            </div>
-            
-            {/* Museum Style Sculpture label */}
-            <div className="absolute right-4 bottom-4 border border-zinc-200/60 dark:border-zinc-800/60 bg-white/40 dark:bg-black/20 backdrop-blur-sm p-4 rounded-md font-mono text-[10px] text-zinc-400 dark:text-zinc-500 max-w-[150px] leading-tight text-right uppercase">
-              <p className="font-bold text-zinc-600 dark:text-zinc-300">// 01 Paper fold</p>
-              <p>Structure base 45</p>
-              <p className="mt-1">Smooth rotation enabled</p>
-            </div>
-          </div>
+          {/* Interactive Stats component */}
+          <InteractiveStats />
         </div>
-
-        {/* Stats strip */}
-        <div className="border-t border-zinc-200/60 dark:border-zinc-800/60 py-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-          {[
-            { value: "10+", label: "Projects Completed" },
-            { value: "5+", label: "AI Workflows" },
-            { value: "3+", label: "Years Learning" },
-            { value: "∞", label: "Curiosity Factor" },
-          ].map((stat, index) => (
-            <motion.div 
-              key={index}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="flex flex-col items-center justify-center p-4 border border-zinc-200/20 bg-white/10 dark:bg-black/5 rounded"
-            >
-              <span className="text-3xl font-bold font-sans text-zinc-800 dark:text-zinc-200">{stat.value}</span>
-              <span className="text-xs font-mono text-zinc-400 uppercase tracking-widest mt-1">{stat.label}</span>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* 2. ABOUT ME SECTION */}
+      </section>      {/* 2. ABOUT ME SECTION */}
       <section 
         id="about" 
-        className="py-32 px-6 md:px-12 transition-colors duration-1000"
+        className="py-32 px-6 md:px-12 relative z-0 transition-colors duration-1000"
         style={{ backgroundColor: "var(--color-about)" }}
       >
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             {/* Left side info */}
             <div className="lg:col-span-7 space-y-8">
@@ -280,51 +359,101 @@ export default function Home() {
                       <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
                       {item.title}
                     </h3>
-                    <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">{item.desc}</p>
+                    <p className="text-xs text-zinc-505 dark:text-zinc-400 leading-relaxed">{item.desc}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Right side portrait with paper card frame */}
-            <div className="lg:col-span-5 flex justify-center">
+            {/* Right side portrait with Polaroid ejection printout & 3D parallax tilt */}
+            <div className="lg:col-span-5 flex justify-center relative">
               <motion.div 
-                initial={{ rotate: -1, scale: 0.98 }}
-                whileInView={{ rotate: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-                className="paper-curl-container p-4 w-full max-w-sm border border-zinc-200/50 dark:border-zinc-800/50"
+                initial={{ opacity: 0, y: -200, scale: 0.85, rotate: -6 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1, rotate: 2 }}
+                viewport={{ once: true, margin: "-100px" }}
+                onViewportEnter={triggerCameraFlash}
+                animate={{ 
+                  rotateX: portraitTilt.x,
+                  rotateY: portraitTilt.y,
+                }}
+                transition={{
+                  y: { type: "spring", stiffness: 60, damping: 12 },
+                  rotate: { type: "spring", stiffness: 60, damping: 12 },
+                  rotateX: { type: "spring", stiffness: 150, damping: 15 },
+                  rotateY: { type: "spring", stiffness: 150, damping: 15 },
+                  opacity: { duration: 0.8 }
+                }}
+                onMouseMove={handlePortraitMouseMove}
+                onMouseLeave={handlePortraitMouseLeave}
+                className="w-full max-w-sm p-4 pb-14 bg-[#fafaf7] border border-zinc-250/90 shadow-2xl relative overflow-hidden cursor-pointer select-none"
+                style={{
+                  transformStyle: "preserve-3d",
+                }}
               >
-                <div className="relative w-full aspect-[4/5] bg-zinc-100 dark:bg-zinc-900 overflow-hidden rounded-sm">
-                  <Image
-                    src="/developer_portrait.png"
-                    alt="Kartavya Dev Portrait"
-                    fill
-                    sizes="(max-width: 768px) 100vw, 350px"
-                    priority
-                    className="object-cover grayscale hover:grayscale-0 transition-all duration-700 ease-in-out"
-                  />
+                {/* Square Polaroid Photo Area with localized developing effect */}
+                <div 
+                  className="relative w-full aspect-square bg-zinc-950 overflow-hidden border border-zinc-900/10 shadow-inner"
+                  style={{
+                    transform: "translateZ(30px)",
+                    transformStyle: "preserve-3d",
+                  }}
+                >
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.4, duration: 0.8 }}
+                    className="w-full h-full relative"
+                  >
+                    <img
+                      src="/developer_portrait_v2.png"
+                      alt="Kartavya Dev Portrait"
+                      className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 ease-in-out scale-105 hover:scale-110"
+                    />
+                  </motion.div>
+
+                  {/* Localized Shutter Flash Overlay */}
+                  {showFlash && (
+                    <motion.div
+                      initial={{ opacity: 1 }}
+                      animate={{ opacity: 0 }}
+                      transition={{ duration: 0.45, ease: "easeOut" }}
+                      className="absolute inset-0 bg-white z-30 pointer-events-none"
+                    />
+                  )}
                 </div>
                 
-                <div className="mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800 flex justify-between items-center text-xs font-mono">
-                  <div>
-                    <p className="text-zinc-800 dark:text-zinc-200">Kartavya Dev</p>
-                    <p className="text-zinc-400">Delhi NCR, India</p>
-                  </div>
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Available for roles" />
+                {/* Radial Hover Shine Element (simulating paper light reflections) */}
+                <div 
+                  className="absolute inset-0 pointer-events-none transition-opacity duration-300 z-20"
+                  style={{
+                    opacity: portraitGlow.opacity,
+                    background: `radial-gradient(circle 180px at ${portraitGlow.x}px ${portraitGlow.y}px, rgba(255,255,255,0.12), transparent)`,
+                  }}
+                />
+                
+                {/* Polaroid Signature/Caption Area (monospaced handwritten marker feel in black) */}
+                <div 
+                  className="mt-6 text-center font-mono italic text-xs tracking-wider text-black font-bold"
+                  style={{
+                    transform: "translateZ(15px)",
+                  }}
+                >
+                  <p className="text-black text-sm font-bold">Kartavya Dev</p>
+                  <p className="text-zinc-700 font-medium mt-1">Delhi NCR, India — July 2026</p>
                 </div>
               </motion.div>
             </div>
           </div>
 
-          {/* Beyond Code tags */}
-          <div className="mt-16 p-8 border border-zinc-200/50 dark:border-zinc-800/50 rounded-md bg-white/20 dark:bg-black/10 backdrop-blur-sm max-w-3xl">
+          {/* Beyond Code tags - flat, unboxed list */}
+          <div className="mt-20 pt-8 border-t border-zinc-200/20 dark:border-zinc-800/20 max-w-3xl">
             <h4 className="text-xs font-mono tracking-widest text-zinc-400 uppercase mb-4">// Beyond Code</h4>
             <div className="flex flex-wrap gap-3">
               {["Chess", "Reading", "Hackathons", "Fitness", "Tech Podcasts", "Travel"].map((tag, i) => (
                 <span 
                   key={i} 
-                  className="px-3 py-1.5 border border-zinc-200 dark:border-zinc-800 text-xs font-mono rounded bg-white/40 dark:bg-zinc-900/40 text-zinc-600 dark:text-zinc-300 hover:-translate-y-0.5 hover:shadow-sm transition-all duration-300"
+                  className="px-3 py-1.5 border border-zinc-200/30 dark:border-zinc-800/30 text-xs font-mono rounded bg-zinc-500/5 dark:bg-zinc-500/5 text-zinc-600 dark:text-zinc-300 transition-colors duration-300"
                 >
                   {tag}
                 </span>
@@ -337,10 +466,10 @@ export default function Home() {
       {/* 3. SKILLS SECTION */}
       <section 
         id="skills" 
-        className="py-32 px-6 md:px-12 transition-colors duration-1000"
+        className="py-32 px-6 md:px-12 relative z-0 transition-colors duration-1000"
         style={{ backgroundColor: "var(--color-skills)" }}
       >
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="mb-16">
             <span className="text-xs font-mono tracking-widest text-zinc-400 dark:text-zinc-500 uppercase">// 03 Capabilities</span>
             <h2 className="text-3xl md:text-5xl font-sans font-bold text-zinc-900 dark:text-white mt-4">
@@ -358,10 +487,10 @@ export default function Home() {
       {/* 4. PROJECTS SECTION */}
       <section 
         id="projects" 
-        className="py-32 px-6 md:px-12 transition-colors duration-1000"
+        className="py-32 px-6 md:px-12 relative z-0 transition-colors duration-1000"
         style={{ backgroundColor: "var(--color-projects)" }}
       >
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <span className="text-xs font-mono tracking-widest text-zinc-400 dark:text-zinc-500 uppercase">// 04 Featured Work</span>
@@ -380,21 +509,27 @@ export default function Home() {
             </a>
           </div>
 
-          {/* Large Project exhibits */}
+          {/* Large Project exhibits - premium card grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {projects.map((project, idx) => (
               <motion.div
                 key={project.id}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: idx * 0.15 }}
-                className="paper-card p-6 flex flex-col justify-between min-h-[480px] border border-zinc-200/50 dark:border-zinc-800/50"
+                animate={{ y: [0, -5, 0] }}
+                transition={{
+                  y: { repeat: Infinity, duration: 6 + idx * 0.5, ease: "easeInOut" },
+                  opacity: { duration: 0.8, delay: idx * 0.15 },
+                  default: { duration: 0.8, delay: idx * 0.15 }
+                }}
+                whileHover={{ y: -10, scale: 1.02 }}
+                className="flex flex-col justify-between min-h-[460px] p-8 bg-[#fbfbfa] dark:bg-[#0f0f0f] border border-black/5 dark:border-white/5 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 relative z-10"
               >
                 <div>
                   <div className="flex justify-between items-start mb-6">
                     <span className="text-xs font-mono text-zinc-400">{project.id}</span>
-                    <div className="p-3 border border-zinc-100 dark:border-zinc-800/80 rounded bg-zinc-50 dark:bg-zinc-900 shadow-inner">
+                    <div className="text-zinc-550 dark:text-zinc-400 p-1">
                       {project.icon}
                     </div>
                   </div>
@@ -402,13 +537,13 @@ export default function Home() {
                   <h3 className="text-2xl font-bold font-sans text-zinc-900 dark:text-white leading-tight">
                     {project.title}
                   </h3>
-                  <p className="text-xs font-mono text-zinc-400 mt-1 uppercase tracking-wider">
+                  <p className="text-xs font-mono text-zinc-450 mt-1 uppercase tracking-wider">
                     {project.subtitle}
                   </p>
 
-                  <div className="my-6 border-y border-zinc-200/50 dark:border-zinc-800/50 py-3">
-                    <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest block mb-1">Key Highlight</span>
-                    <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">
+                  <div className="my-6 border-y border-zinc-200/10 dark:border-zinc-800/20 py-3">
+                    <span className="text-[10px] font-mono text-zinc-450 uppercase tracking-widest block mb-1">Key Highlight</span>
+                    <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-450">
                       {project.metric}
                     </span>
                   </div>
@@ -422,14 +557,14 @@ export default function Home() {
                   {/* Tech chips */}
                   <div className="flex flex-wrap gap-1.5">
                     {project.tech.map((t, tIdx) => (
-                      <span key={tIdx} className="text-[9px] font-mono border border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/50 dark:bg-zinc-900/50 px-2 py-0.5 rounded text-zinc-500 dark:text-zinc-400">
+                      <span key={tIdx} className="text-[10px] font-mono px-2 py-0.5 border border-zinc-200/10 dark:border-zinc-800/20 bg-zinc-500/5 rounded text-zinc-500 dark:text-zinc-400">
                         {t}
                       </span>
                     ))}
                   </div>
 
                   {/* Actions */}
-                  <div className="flex items-center gap-4 pt-2 border-t border-zinc-100 dark:border-zinc-800/50">
+                  <div className="flex items-center gap-4 pt-2">
                     <a
                       href={project.github}
                       target="_blank"
@@ -457,10 +592,10 @@ export default function Home() {
       {/* 5. ACHIEVEMENTS SECTION */}
       <section 
         id="achievements" 
-        className="py-32 px-6 md:px-12 transition-colors duration-1000"
+        className="py-32 px-6 md:px-12 relative z-0 transition-colors duration-1000"
         style={{ backgroundColor: "var(--color-achievements)" }}
       >
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="mb-16">
             <span className="text-xs font-mono tracking-widest text-zinc-400 dark:text-zinc-500 uppercase">// 05 Milestones</span>
             <h2 className="text-3xl md:text-5xl font-sans font-bold text-zinc-900 dark:text-white mt-4">
@@ -468,16 +603,22 @@ export default function Home() {
             </h2>
           </div>
 
-          {/* Plaque collection */}
+          {/* Plaque collection - premium cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {achievements.map((item, idx) => (
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
-                className="paper-card p-6 flex flex-col justify-between border border-zinc-200/50 dark:border-zinc-800/50 hover:bg-zinc-50/50 dark:hover:bg-zinc-900/10"
+                animate={{ y: [0, -4, 0] }}
+                transition={{
+                  y: { repeat: Infinity, duration: 5.5 + idx * 0.4, ease: "easeInOut" },
+                  opacity: { duration: 0.6, delay: idx * 0.1 },
+                  default: { duration: 0.6, delay: idx * 0.1 }
+                }}
+                whileHover={{ y: -8, scale: 1.02 }}
+                className="p-6 flex flex-col justify-between min-h-[160px] bg-[#fbfbfa] dark:bg-[#0f0f0f] border border-black/5 dark:border-white/5 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 relative z-10"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
@@ -488,7 +629,7 @@ export default function Home() {
                     {item.title}
                   </h3>
                 </div>
-                <div className="mt-8 pt-4 border-t border-zinc-100 dark:border-zinc-800/60">
+                <div className="mt-8 pt-2">
                   <span className="text-xs font-mono font-bold uppercase text-zinc-500 dark:text-zinc-400">
                     {item.role}
                   </span>
@@ -502,10 +643,10 @@ export default function Home() {
       {/* 6. EXPERIENCE SECTION */}
       <section 
         id="experience" 
-        className="py-32 px-6 md:px-12 transition-colors duration-1000"
+        className="py-32 px-6 md:px-12 relative z-0 transition-colors duration-1000"
         style={{ backgroundColor: "var(--color-experience)" }}
       >
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="mb-16">
             <span className="text-xs font-mono tracking-widest text-zinc-400 dark:text-zinc-500 uppercase">// 06 Professional Path</span>
             <h2 className="text-3xl md:text-5xl font-sans font-bold text-zinc-900 dark:text-white mt-4">
@@ -529,18 +670,18 @@ export default function Home() {
                 <span className="w-1.5 h-1.5 rounded-full bg-zinc-900 dark:bg-zinc-100" />
               </span>
 
-              <div className="paper-card p-6 max-w-2xl border border-zinc-200/50 dark:border-zinc-800/50">
+              <div className="p-6 max-w-2xl bg-transparent border-none relative z-10">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
                   <div>
                     <h3 className="text-lg font-bold font-sans text-zinc-900 dark:text-white">Sopra Steria</h3>
                     <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">AI Project Intern</p>
                   </div>
-                  <span className="text-xs font-mono text-zinc-400 bg-zinc-100 dark:bg-zinc-900 px-3 py-1 rounded border border-zinc-200/30 dark:border-zinc-800/30">
+                  <span className="text-xs font-mono text-zinc-400 bg-zinc-500/5 px-3 py-1 rounded border border-zinc-200/10 dark:border-zinc-800/10">
                     Jun 2025 – Jul 2025
                   </span>
                 </div>
 
-                <ul className="text-xs text-zinc-600 dark:text-zinc-400 space-y-3 list-disc pl-4 leading-relaxed">
+                <ul className="text-xs text-zinc-650 dark:text-zinc-400 space-y-3 list-disc pl-4 leading-relaxed">
                   <li>
                     Developed a high-performance RAG-based enterprise chatbot using LLMs, embedding retrievals, and optimized backend APIs for corporate knowledge base access.
                   </li>
@@ -566,13 +707,13 @@ export default function Home() {
                 <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
               </span>
 
-              <div className="paper-card p-6 max-w-2xl border border-zinc-200/50 dark:border-zinc-800/50">
+              <div className="p-6 max-w-2xl bg-transparent border-none relative z-10">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
                   <div>
                     <h3 className="text-lg font-bold font-sans text-zinc-900 dark:text-white">BML Munjal University</h3>
                     <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">B.Tech — Data Science &amp; AI</p>
                   </div>
-                  <span className="text-xs font-mono text-zinc-400 bg-zinc-100 dark:bg-zinc-900 px-3 py-1 rounded border border-zinc-200/30 dark:border-zinc-800/30">
+                  <span className="text-xs font-mono text-zinc-400 bg-zinc-500/5 px-3 py-1 rounded border border-zinc-200/10 dark:border-zinc-800/10">
                     2023 – 2027
                   </span>
                 </div>
@@ -589,10 +730,10 @@ export default function Home() {
       {/* 7. CONTACT SECTION */}
       <section 
         id="contact" 
-        className="py-32 px-6 md:px-12 transition-colors duration-1000"
+        className="py-32 px-6 md:px-12 relative z-0 transition-colors duration-1000"
         style={{ backgroundColor: "var(--color-contact)" }}
       >
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
             {/* Left side text details */}
             <div className="lg:col-span-5 flex flex-col justify-between">
@@ -642,9 +783,7 @@ export default function Home() {
 
             {/* Right side form */}
             <div className="lg:col-span-7">
-              <div className="p-8 border border-zinc-800 bg-[#222222] rounded-md shadow-2xl relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-12 h-12 bg-zinc-800 pointer-events-none" style={{ clipPath: "polygon(0 0, 100% 0, 100% 100%)" }} />
-                
+              <div className="py-8 relative overflow-hidden z-10 border-t border-zinc-200/10 dark:border-zinc-800/20">
                 <AnimatePresence mode="wait">
                   {!formSubmitted ? (
                     <motion.form 
@@ -663,7 +802,7 @@ export default function Home() {
                           required
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                          className="w-full bg-[#1c1c1c] border border-zinc-800 focus:border-zinc-500 outline-none rounded p-3 text-sm text-zinc-200 font-mono transition-colors"
+                          className="w-full bg-transparent border-b border-zinc-200/15 dark:border-zinc-800/30 focus:border-zinc-400 dark:focus:border-zinc-600 outline-none p-3 text-sm text-zinc-200 font-mono transition-colors"
                           placeholder="Your name"
                         />
                       </div>
@@ -676,7 +815,7 @@ export default function Home() {
                           required
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          className="w-full bg-[#1c1c1c] border border-zinc-800 focus:border-zinc-500 outline-none rounded p-3 text-sm text-zinc-200 font-mono transition-colors"
+                          className="w-full bg-transparent border-b border-zinc-200/15 dark:border-zinc-800/30 focus:border-zinc-400 dark:focus:border-zinc-600 outline-none p-3 text-sm text-zinc-200 font-mono transition-colors"
                           placeholder="your.email@domain.com"
                         />
                       </div>
@@ -689,7 +828,7 @@ export default function Home() {
                           rows={4}
                           value={formData.message}
                           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                          className="w-full bg-[#1c1c1c] border border-zinc-800 focus:border-zinc-500 outline-none rounded p-3 text-sm text-zinc-200 font-mono transition-colors resize-none"
+                          className="w-full bg-transparent border-b border-zinc-200/15 dark:border-zinc-800/30 focus:border-zinc-400 dark:focus:border-zinc-600 outline-none p-3 text-sm text-zinc-200 font-mono transition-colors resize-none"
                           placeholder="Tell me about your product goals..."
                         />
                       </div>

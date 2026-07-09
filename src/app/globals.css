@@ -1,48 +1,75 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 @layer base {
   :root {
-    /* Light Mode Palette: Warm off-white, soft paper white, neutral shadows */
-    --background: #f4f3ef; /* Warm matte grey / cream */
-    --foreground: #1c1c1a;
+    /* Explicit Color Variables - Light Mode */
+    --bg-primary: #f4f3ef;
+    --bg-secondary: #eae8e3;
+    --text-primary: #1c1c1a;
+    --text-secondary: #5c5c5a;
+    --border-color: #eae8e3;
+    --grid-line-color: rgba(28, 28, 26, 0.006);
+    --grid-node-color: rgba(28, 28, 26, 0.012);
+
+    --background: var(--bg-primary);
+    --background-sec: var(--bg-secondary);
+    --foreground: var(--text-primary);
     
-    --color-home: #f4f3ef;
-    --color-about: #faf9f6; /* Soft ivory paper */
-    --color-skills: #eff1f2; /* Cool grey */
-    --color-projects: #e9e9e6; /* Slightly darker neutral */
-    --color-achievements: #ffffff; /* Paper white */
-    --color-experience: #f0f1f2; /* Light architectural grey */
-    --color-contact: #1c1c1a; /* Elegant dark charcoal (inverted) */
+    --color-home: var(--bg-primary);
+    --color-about: var(--bg-secondary);
+    --color-skills: var(--bg-primary);
+    --color-projects: var(--bg-secondary);
+    --color-achievements: var(--bg-primary);
+    --color-experience: var(--bg-secondary);
+    --color-contact: #1c1c1a;
     
     --card-bg: #ffffff;
     --fold-bg: #e6e5e0;
-    --shadow-color: rgba(28, 28, 26, 0.04);
-    --shadow-md-color: rgba(28, 28, 26, 0.06);
-    --border-color: rgba(28, 28, 26, 0.06);
+    --shadow-color: transparent;
+    --shadow-md-color: transparent;
   }
 
   .dark {
-    /* Dark Mode Palette: Matte charcoal, deep graphite, soft highlights */
-    --background: #181818;
-    --foreground: #f4f4f4;
+    /* Explicit Color Variables - Solid Matte Dark Mode */
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #0a0a0a;
+    --text-primary: #f4f4f4;
+    --text-secondary: #a1a1a1;
+    --border-color: #1a1a1a;
+    --grid-line-color: rgba(255, 255, 255, 0.006);
+    --grid-node-color: rgba(255, 255, 255, 0.012);
 
-    --color-home: #181818;
-    --color-about: #1d1d1d;
-    --color-skills: #151515;
-    --color-projects: #222222;
-    --color-achievements: #1c1c1c;
-    --color-experience: #1e1e1e;
-    --color-contact: #121212;
+    --background: var(--bg-primary);
+    --background-sec: var(--bg-secondary);
+    --foreground: var(--text-primary);
 
-    --card-bg: #222222;
-    --fold-bg: #2d2d2d;
-    --shadow-color: rgba(0, 0, 0, 0.3);
-    --shadow-md-color: rgba(0, 0, 0, 0.4);
-    --border-color: rgba(255, 255, 255, 0.05);
+    --color-home: var(--bg-primary);
+    --color-about: var(--bg-primary);
+    --color-skills: var(--bg-primary);
+    --color-projects: var(--bg-primary);
+    --color-achievements: var(--bg-primary);
+    --color-experience: var(--bg-primary);
+    --color-contact: var(--bg-primary);
+
+    --card-bg: transparent;
+    --fold-bg: transparent;
+    --shadow-color: transparent;
+    --shadow-md-color: transparent;
   }
 
   html {
     scroll-behavior: auto;
+  }
+
+  /* Global typography and cross-browser rendering normalization */
+  html, body, * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: geometricPrecision;
+    font-feature-settings: "kern";
+    font-kerning: normal;
   }
 
   body {
@@ -53,99 +80,50 @@
   }
 }
 
-.bg-grain-texture {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.04;
-  background-image: 
-    radial-gradient(var(--foreground) 1px, transparent 1px),
-    linear-gradient(to right, var(--border-color) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--border-color) 1px, transparent 1px);
-  background-size: 24px 24px, 120px 120px, 120px 120px;
-}
-
-.bg-grain-overlay {
+/* Subtle Film Grain Noise Overlay */
+.bg-noise-overlay {
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
   z-index: 2;
   pointer-events: none;
-  opacity: 0.02;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.01; /* 1% opacity very fine texture */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
-/* Premium Folded Corner Card style */
+/* Premium Folded Corner Card style - converted to flat borderless structure */
 .paper-card {
   position: relative;
-  background-color: var(--card-bg);
-  border: 1px solid var(--border-color);
-  box-shadow: 0 4px 24px var(--shadow-color);
-  border-radius: 4px;
-  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .paper-card::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 16px;
-  height: 16px;
-  background-color: var(--fold-bg);
-  border-bottom-left-radius: 3px;
-  box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.08);
-  transition: background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
+  content: none;
 }
 
-/* Hover effects for paper cards */
+/* Hover effects for flat layout */
 .paper-card:hover {
-  transform: translateY(-4px) rotate(0.5deg);
-  box-shadow: 0 12px 36px var(--shadow-md-color);
-  border-color: rgba(28, 28, 26, 0.12);
-}
-
-.dark .paper-card:hover {
-  border-color: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
 }
 
 .paper-card:hover::after {
-  transform: scale(1.1) translate(-1px, 1px);
-  background-color: var(--background);
+  content: none;
 }
 
-/* Subtle corner curl for paper portrait border */
+/* Subtle corner curl for paper portrait border - converted to simple flat borderless image wrap */
 .paper-curl-container {
   position: relative;
-  background: var(--card-bg);
-  box-shadow: 0 15px 35px var(--shadow-md-color), 0 5px 15px var(--shadow-color);
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  background: transparent;
+  box-shadow: none;
 }
 
 .paper-curl-container::before {
-  content: "";
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  bottom: 0;
-  right: 0;
-  background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.08) 50%, rgba(0,0,0,0.12) 100%);
-  box-shadow: -5px -5px 10px rgba(0,0,0,0.06);
-  z-index: 10;
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
-  border-bottom-right-radius: 4px;
-}
-
-.paper-curl-container:hover::before {
-  width: 45px;
-  height: 45px;
+  content: none;
 }
 
 /* Custom Scrollbar */

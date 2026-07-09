@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import SmoothScroll from "@/components/SmoothScroll";
+import InteractiveGrid from "@/components/InteractiveGrid";
+import LiquidyCursor from "@/components/LiquidyCursor";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,9 +36,10 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col relative overflow-x-hidden selection:bg-zinc-800 selection:text-white dark:selection:bg-zinc-200 dark:selection:text-black">
         <ThemeProvider>
           <SmoothScroll>
-            {/* Soft Grain & Blueprint Grid Textures */}
-            <div className="bg-grain-texture" />
-            <div className="bg-grain-overlay" />
+            {/* Seamless architectural interactive grid lines, custom cursor & film grain noise */}
+            <InteractiveGrid />
+            <LiquidyCursor />
+            <div className="bg-noise-overlay" />
             {children}
           </SmoothScroll>
         </ThemeProvider>

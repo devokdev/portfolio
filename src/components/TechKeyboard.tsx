@@ -265,8 +265,8 @@ export default function TechKeyboard() {
   
   const [visualizerBars, setVisualizerBars] = useState<number[]>([10, 10, 10, 10, 10, 10, 10, 10, 10, 10]);
 
-  // Audio Click Synthesizer using Web Audio API
-  const playKeyboardClick = (isSpace = false) => {
+  // Audio Click Synthesizer using Web Audio API (Piano Mode)
+  const playKeyboardClick = (keyLabel: string) => {
     if (isMuted || typeof window === "undefined") return;
     
     try {
@@ -274,67 +274,111 @@ export default function TechKeyboard() {
       if (!AudioContextClass) return;
       
       const audioCtx = new AudioContextClass();
-      const pitchFactor = 0.88 + Math.random() * 0.24; 
       
-      const clickOsc = audioCtx.createOscillator();
-      const clickGain = audioCtx.createGain();
-      clickOsc.type = "sine";
-      clickOsc.frequency.setValueAtTime((isSpace ? 750 : 1550) * pitchFactor, audioCtx.currentTime);
-      clickOsc.frequency.exponentialRampToValueAtTime((isSpace ? 180 : 380) * pitchFactor, audioCtx.currentTime + 0.035);
+      // Map keys to notes on a beautiful C Major Scale
+      const noteMap: Record<string, number> = {
+        Q: 261.63, // C4
+        W: 293.66, // D4
+        E: 329.63, // E4
+        R: 349.23, // F4
+        T: 392.00, // G4
+        Y: 440.00, // A4
+        U: 493.88, // B4
+        I: 523.25, // C5
+        A: 587.33, // D5
+        S: 659.25, // E5
+        D: 698.46, // F5
+        F: 783.99, // G5
+        G: 880.00, // A5
+        H: 987.77, // B5
+        J: 1046.50, // C6
+        K: 1174.66, // D6
+        SPACE: 196.00 // G3 (Warm low note)
+      };
+
+      const baseFreq = noteMap[keyLabel] || 440;
       
-      clickGain.gain.setValueAtTime(0.14, audioCtx.currentTime);
-      clickGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
-      
-      clickOsc.connect(clickGain);
-      clickGain.connect(audioCtx.destination);
-      
-      const clackOsc = audioCtx.createOscillator();
-      const clackGain = audioCtx.createGain();
-      clackOsc.type = "triangle";
-      clackOsc.frequency.setValueAtTime((isSpace ? 95 : 185) * pitchFactor, audioCtx.currentTime);
-      clackOsc.frequency.exponentialRampToValueAtTime((isSpace ? 45 : 75) * pitchFactor, audioCtx.currentTime + 0.08);
-      
-      clackGain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-      clackGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.09);
-      
-      clackOsc.connect(clackGain);
-      clackGain.connect(audioCtx.destination);
-      
-      const bufferSize = audioCtx.sampleRate * 0.025; 
+      // Master envelope to control note ring-out
+      const masterGain = audioCtx.createGain();
+      masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
+      masterGain.gain.linearRampToValueAtTime(0.35, audioCtx.currentTime + 0.006); // attack
+      masterGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.25); // decay
+      masterGain.connect(audioCtx.destination);
+
+      // 1. Fundamental Tone (Sine wave)
+      const osc1 = audioCtx.createOscillator();
+      const gain1 = audioCtx.createGain();
+      osc1.type = "sine";
+      osc1.frequency.setValueAtTime(baseFreq, audioCtx.currentTime);
+      gain1.gain.setValueAtTime(0.7, audioCtx.currentTime);
+      osc1.connect(gain1);
+      gain1.connect(masterGain);
+
+      // 2. Second Harmonic (Sine wave, octave up, softer)
+      const osc2 = audioCtx.createOscillator();
+      const gain2 = audioCtx.createGain();
+      osc2.type = "sine";
+      osc2.frequency.setValueAtTime(baseFreq * 2, audioCtx.currentTime);
+      gain2.gain.setValueAtTime(0.25, audioCtx.currentTime);
+      osc2.connect(gain2);
+      gain2.connect(masterGain);
+
+      // 3. Third Harmonic (Sine wave, octave + fifth, even softer)
+      const osc3 = audioCtx.createOscillator();
+      const gain3 = audioCtx.createGain();
+      osc3.type = "sine";
+      osc3.frequency.setValueAtTime(baseFreq * 3, audioCtx.currentTime);
+      gain3.gain.setValueAtTime(0.12, audioCtx.currentTime);
+      osc3.connect(gain3);
+      gain3.connect(masterGain);
+
+      // 4. Fourth Harmonic (Sine wave, double octave, very soft)
+      const osc4 = audioCtx.createOscillator();
+      const gain4 = audioCtx.createGain();
+      osc4.type = "sine";
+      osc4.frequency.setValueAtTime(baseFreq * 4, audioCtx.currentTime);
+      gain4.gain.setValueAtTime(0.06, audioCtx.currentTime);
+      osc4.connect(gain4);
+      gain4.connect(masterGain);
+
+      // 5. Hammer strike click noise (very short attack pop)
+      const bufferSize = audioCtx.sampleRate * 0.015;
       const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
       const data = buffer.getChannelData(0);
       for (let i = 0; i < bufferSize; i++) {
         data[i] = Math.random() * 2 - 1;
       }
-      
-      const noiseSource = audioCtx.createBufferSource();
-      noiseSource.buffer = buffer;
-      
+      const noise = audioCtx.createBufferSource();
+      noise.buffer = buffer;
       const noiseFilter = audioCtx.createBiquadFilter();
       noiseFilter.type = "bandpass";
-      noiseFilter.frequency.setValueAtTime(950 * pitchFactor, audioCtx.currentTime);
-      noiseFilter.Q.setValueAtTime(1.8, audioCtx.currentTime);
-      
+      noiseFilter.frequency.setValueAtTime(1200, audioCtx.currentTime);
       const noiseGain = audioCtx.createGain();
-      noiseGain.gain.setValueAtTime(0.035, audioCtx.currentTime);
-      noiseGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.018);
+      noiseGain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+      noiseGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.012);
       
-      noiseSource.connect(noiseFilter);
+      noise.connect(noiseFilter);
       noiseFilter.connect(noiseGain);
       noiseGain.connect(audioCtx.destination);
+
+      // Start all sound components
+      osc1.start();
+      osc2.start();
+      osc3.start();
+      osc4.start();
+      noise.start();
+
+      // Schedule note end
+      osc1.stop(audioCtx.currentTime + 1.3);
+      osc2.stop(audioCtx.currentTime + 1.3);
+      osc3.stop(audioCtx.currentTime + 1.3);
+      osc4.stop(audioCtx.currentTime + 1.3);
+      noise.stop(audioCtx.currentTime + 0.015);
       
-      clickOsc.start();
-      clackOsc.start();
-      noiseSource.start();
-      
-      clickOsc.stop(audioCtx.currentTime + 0.045);
-      clackOsc.stop(audioCtx.currentTime + 0.1);
-      noiseSource.stop(audioCtx.currentTime + 0.025);
-      
-      setVisualizerBars(Array.from({ length: 10 }, () => Math.floor(40 + Math.random() * 55)));
+      setVisualizerBars(Array.from({ length: 10 }, () => Math.floor(45 + Math.random() * 50)));
       setTimeout(() => {
-        setVisualizerBars(Array.from({ length: 10 }, () => Math.floor(12 + Math.random() * 20)));
-      }, 120);
+        setVisualizerBars(Array.from({ length: 10 }, () => Math.floor(10 + Math.random() * 15)));
+      }, 150);
       
     } catch (e) {
       console.warn("Web Audio click failed to play", e);
@@ -350,11 +394,11 @@ export default function TechKeyboard() {
         e.preventDefault();
         setActiveKey(key);
         setLastPressedKey(matchedKey);
-        playKeyboardClick(false);
+        playKeyboardClick(key);
       } else if (e.code === "Space") {
         e.preventDefault();
         setActiveKey("SPACE");
-        playKeyboardClick(true);
+        playKeyboardClick("SPACE");
       }
     };
 
@@ -388,7 +432,7 @@ export default function TechKeyboard() {
   const handleKeyClick = (key: TechKey) => {
     setActiveKey(key.keyLabel);
     setLastPressedKey(key);
-    playKeyboardClick(false);
+    playKeyboardClick(key.keyLabel);
     setTimeout(() => {
       setActiveKey(null);
     }, 120);
@@ -396,7 +440,7 @@ export default function TechKeyboard() {
 
   const handleSpaceClick = () => {
     setActiveKey("SPACE");
-    playKeyboardClick(true);
+    playKeyboardClick("SPACE");
     setTimeout(() => {
       setActiveKey(null);
     }, 120);
@@ -406,8 +450,12 @@ export default function TechKeyboard() {
 
   return (
     <div className="w-full flex flex-col items-center justify-center py-6 px-4">
-      {/* 3D Keyboard Housing Casing */}
-      <div className="relative w-full max-w-4xl bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-950 border-t-2 border-zinc-700/60 border-l border-r border-zinc-900 rounded-3xl p-6 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(255,255,255,0.1)] transition-all duration-300">
+      {/* Floating 3D Keyboard Housing Casing */}
+      <motion.div
+        animate={{ y: [0, -6, 0] }}
+        transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+        className="relative w-full max-w-4xl bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-950 border-t-2 border-zinc-700/60 border-l border-r border-zinc-900 rounded-3xl p-6 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(255,255,255,0.1)] transition-all duration-300"
+      >
         
         {/* Shiny metallic screw studs in corners */}
         <div className="absolute top-4 left-4 w-3 h-3 rounded-full bg-gradient-to-tr from-zinc-700 to-zinc-400 border border-zinc-900 shadow-lg" />
@@ -484,8 +532,8 @@ export default function TechKeyboard() {
             >
               {isMuted ? "🔇 Sound Off" : "🔊 Sound On"}
             </button>
-            <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">
-              Glossy 3D keycaps
+            <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest mt-1">
+              try pressing key
             </span>
           </div>
 
@@ -560,9 +608,6 @@ export default function TechKeyboard() {
                       "--lip": key.lipColor,
                     } as React.CSSProperties}
                   >
-                    {/* Glossy top-glare highlight element */}
-                    <div className="absolute top-[1.5px] left-[1.5px] right-[1.5px] h-[40%] bg-gradient-to-b from-white/25 to-transparent rounded-t-lg pointer-events-none" />
-
                     {/* Key Legend Label (A, S, D, etc.) */}
                     <span className="absolute top-1.5 left-2 text-[8px] md:text-[9px] font-mono font-bold opacity-45">
                       {key.keyLabel}
@@ -591,7 +636,6 @@ export default function TechKeyboard() {
                 className="w-full h-full rounded-xl bg-zinc-800 border-t border-white/10 shadow-[0_6px_0_#27272a] flex items-center justify-center text-[8px] font-mono uppercase text-zinc-550 cursor-not-allowed select-none relative overflow-hidden"
                 disabled
               >
-                <div className="absolute top-[1px] left-[1px] right-[1px] h-[40%] bg-gradient-to-b from-white/15 to-transparent rounded-t-lg" />
                 CTRL
               </button>
             </div>
@@ -602,7 +646,6 @@ export default function TechKeyboard() {
                 className="w-full h-full rounded-xl bg-zinc-850 border-t border-white/10 shadow-[0_6px_0_#18181b] flex items-center justify-center text-[8px] font-mono uppercase text-zinc-550 cursor-not-allowed select-none relative overflow-hidden"
                 disabled
               >
-                <div className="absolute top-[1px] left-[1px] right-[1px] h-[40%] bg-gradient-to-b from-white/15 to-transparent rounded-t-lg" />
                 ALT
               </button>
             </div>
@@ -619,7 +662,6 @@ export default function TechKeyboard() {
                     : "shadow-[0_6px_0_#3f3f46] hover:translate-y-[-1px] hover:shadow-[0_7px_0_#3f3f46]"
                 }`}
               >
-                <div className="absolute top-[1px] left-[1px] right-[1px] h-[40%] bg-gradient-to-b from-white/20 to-transparent rounded-t-lg" />
                 <div className="w-16 h-1 rounded-full bg-zinc-500 opacity-60" />
               </button>
             </div>
@@ -630,7 +672,6 @@ export default function TechKeyboard() {
                 className="w-full h-full rounded-xl bg-zinc-850 border-t border-white/10 shadow-[0_6px_0_#18181b] flex items-center justify-center text-[8px] font-mono uppercase text-zinc-550 cursor-not-allowed select-none relative overflow-hidden"
                 disabled
               >
-                <div className="absolute top-[1px] left-[1px] right-[1px] h-[40%] bg-gradient-to-b from-white/15 to-transparent rounded-t-lg" />
                 ALT
               </button>
             </div>
@@ -641,7 +682,6 @@ export default function TechKeyboard() {
                 className="w-full h-full rounded-xl bg-zinc-800 border-t border-white/10 shadow-[0_6px_0_#27272a] flex items-center justify-center text-[8px] font-mono uppercase text-zinc-550 cursor-not-allowed select-none relative overflow-hidden"
                 disabled
               >
-                <div className="absolute top-[1px] left-[1px] right-[1px] h-[40%] bg-gradient-to-b from-white/15 to-transparent rounded-t-lg" />
                 FN
               </button>
             </div>
@@ -655,7 +695,7 @@ export default function TechKeyboard() {
           </p>
         </div>
 
-      </div>
+      </motion.div>
     </div>
   );
 }
