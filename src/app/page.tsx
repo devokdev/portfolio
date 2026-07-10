@@ -366,7 +366,7 @@ export default function Home() {
                 className="mt-6 border-l-2 border-zinc-200 dark:border-zinc-800 pl-4 py-1 text-left max-w-sm"
               >
                 <p className="text-xs font-mono text-zinc-500 dark:text-zinc-400 uppercase tracking-wider font-semibold">
-                  Product Engineer / AI Whisperer / Part-time Bug Creator
+                  Product Engineer / AI Builder / Full Stack Developer
                 </p>
               </motion.div>
 
