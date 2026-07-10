@@ -32,37 +32,59 @@ export default function InteractiveContact() {
 
   const [activeFocus, setActiveFocus] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
     // Sequence start: Lock document
     setIsSubmitting(true);
 
-    // Apply stamp after slight delay
-    setTimeout(() => {
-      setIsStamped(true);
-      setPaperBounced(true); // Paper wiggles from impact force
-      
-      // Reset bounce flag
-      setTimeout(() => setPaperBounced(false), 450);
-      
-      // Stamp ink settles
-      setTimeout(() => {
-        setStampSettled(true);
+    try {
+      // Start email send request
+      const sendPromise = fetch("/api/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      // Apply stamp after slight delay
+      setTimeout(async () => {
+        setIsStamped(true);
+        setPaperBounced(true); // Paper wiggles from impact force
+        
+        // Reset bounce flag
+        setTimeout(() => setPaperBounced(false), 450);
+        
+        // Stamp ink settles
+        setTimeout(() => {
+          setStampSettled(true);
+        }, 300);
+
+        try {
+          const response = await sendPromise;
+          const result = await response.json();
+          if (!response.ok || result.error) {
+            console.error("Proposal dispatch error:", result.error || "Unknown error");
+          }
+        } catch (err) {
+          console.error("Network error during proposal dispatch:", err);
+        }
+
+        // Slide document up and show final success state
+        setTimeout(() => {
+          setProposalSubmitted(true);
+          // Reset local submission states for future uses
+          setIsSubmitting(false);
+          setIsStamped(false);
+          setStampSettled(false);
+          setFormData({ name: "", email: "", message: "" });
+        }, 1500);
+
       }, 300);
-
-      // Slide document up and show final success state
-      setTimeout(() => {
-        setProposalSubmitted(true);
-        // Reset local submission states for future uses
-        setIsSubmitting(false);
-        setIsStamped(false);
-        setStampSettled(false);
-        setFormData({ name: "", email: "", message: "" });
-      }, 1500);
-
-    }, 300);
+    } catch (err) {
+      console.error("Failed to send proposal:", err);
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -106,8 +128,8 @@ export default function InteractiveContact() {
           <div className="space-y-6">
             <div className="flex items-center gap-3 text-zinc-800 dark:text-zinc-300">
               <Mail className="w-4 h-4 text-zinc-500" />
-              <a href="mailto:kartavya.dev.23cse@bmu.edu.in" className="text-xs font-mono hover:underline">
-                kartavya.dev.23cse@bmu.edu.in
+              <a href="mailto:kartavyadev3@gmail.com" className="text-xs font-mono hover:underline">
+                kartavyadev3@gmail.com
               </a>
             </div>
             <div className="flex items-center gap-3 text-zinc-800 dark:text-zinc-300">

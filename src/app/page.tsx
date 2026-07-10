@@ -255,10 +255,10 @@ export default function Home() {
 
   // Achievements Data
   const achievements = [
-    { id: "01", title: "Google Agentic AI Hackathon", role: "Survived the Finals 2025" },
-    { id: "02", title: "IIT Ropar GenAI Hackathon", role: "3rd Place & Free T-Shirt" },
-    { id: "03", title: "Amity Innovation Challenge", role: "Top 8 Finalist (Almost Famous)" },
-    { id: "04", title: "Academic Excellence & Performance", role: "CSE Merit Scholar | B.Tech CGPA: 8.72 (Parents approved)" }
+    { id: "01", title: "Google Agentic AI Hackathon", role: "Finalist 2025", joke: "(Survived the Finals)" },
+    { id: "02", title: "IIT Ropar GenAI Hackathon", role: "3rd Place Winner", joke: "(and a free T-shirt)" },
+    { id: "03", title: "Amity Innovation Challenge", role: "Top 8 Finalist 2025", joke: "(almost famous)" },
+    { id: "04", title: "Academic Excellence & Performance", role: "CSE Merit Scholar | B.Tech CGPA: 8.60", joke: "(parents approved)" }
   ];
 
   return (
@@ -418,7 +418,7 @@ export default function Home() {
             <div className="lg:col-span-7 space-y-8">
               <span className="text-base md:text-lg font-mono font-bold tracking-wider text-zinc-550 dark:text-zinc-400 uppercase">// 02 About Me</span>
               <h2 className="text-3xl md:text-5xl font-sans font-bold text-zinc-900 dark:text-white leading-tight">
-                I build systems that actually work <span className="text-[0.55em] font-normal text-zinc-500 dark:text-zinc-400 block md:inline md:ml-1">(unlike my sleep schedule).</span>
+                I build systems that actually work <span className="text-[0.55em] font-normal text-zinc-500/60 dark:text-zinc-550/50 block md:inline md:ml-1">(unlike my sleep schedule).</span>
               </h2>
 
               <div className="text-zinc-600 dark:text-zinc-400 text-sm md:text-base space-y-6 leading-relaxed">
@@ -579,7 +579,7 @@ export default function Home() {
             <div>
               <span className="text-base md:text-lg font-mono font-bold tracking-wider text-zinc-550 dark:text-zinc-400 uppercase">// 04 Proof of Labor</span>
               <h2 className="text-3xl md:text-5xl font-sans font-bold text-zinc-900 dark:text-white mt-4">
-                Systems built with architectural pride <span className="text-[0.55em] font-normal text-zinc-500 dark:text-zinc-400 block mt-1.5">(and a lot of coffee).</span>
+                Systems built with architectural pride <span className="text-[0.55em] font-normal text-zinc-500/60 dark:text-zinc-550/50 block mt-1.5">(and a lot of coffee).</span>
               </h2>
             </div>
 
@@ -637,8 +637,9 @@ export default function Home() {
                 </div>
 
                 {/* Milestone Details */}
-                <div className="col-span-10 md:col-span-3 text-xs md:text-sm font-mono text-zinc-500 dark:text-zinc-400">
-                  {item.role}
+                <div className="col-span-10 md:col-span-3 text-xs md:text-sm font-mono text-zinc-700 dark:text-zinc-300">
+                  <span>{item.role} </span>
+                  <span className="text-zinc-500/70 dark:text-zinc-600 font-normal">{item.joke}</span>
                 </div>
 
                 {/* Icon Action Indicator */}
