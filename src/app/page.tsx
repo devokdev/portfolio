@@ -41,7 +41,6 @@ import Navbar from "@/components/Navbar";
 import DynamicSculpture from "@/components/DynamicSculpture";
 import { useTheme } from "@/components/ThemeProvider";
 import TechKeyboard from "@/components/TechKeyboard";
-import InteractiveStats from "@/components/InteractiveStats";
 import InteractiveProjects from "@/components/InteractiveProjects";
 import InteractiveExperience from "@/components/InteractiveExperience";
 import InteractiveContact from "@/components/InteractiveContact";
@@ -403,13 +402,11 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Interactive Stats component */}
-          <InteractiveStats />
         </div>
       </section>      {/* 2. ABOUT ME SECTION */}
       <section
         id="about"
-        className="py-32 px-6 md:px-12 relative z-0 transition-colors duration-1000"
+        className="py-20 px-6 md:px-12 relative z-0 transition-colors duration-1000"
         style={{ backgroundColor: "var(--color-about)" }}
       >
         <div className="max-w-7xl mx-auto relative z-10">
@@ -417,40 +414,52 @@ export default function Home() {
             {/* Left side info */}
             <div className="lg:col-span-7 space-y-8">
               <span className="text-base md:text-lg font-mono font-bold tracking-wider text-zinc-550 dark:text-zinc-400 uppercase">// 02 About Me</span>
-              <h2 className="text-3xl md:text-5xl font-sans font-bold text-zinc-900 dark:text-white leading-tight">
+              <h2 className="text-3xl md:text-5xl font-sans font-extrabold tracking-tight text-zinc-900 dark:text-white leading-tight">
                 I build systems that actually work <span className="text-[0.55em] font-normal text-zinc-500/60 dark:text-zinc-550/50 block md:inline md:ml-1">(unlike my sleep schedule).</span>
               </h2>
 
-              <div className="text-zinc-600 dark:text-zinc-400 text-sm md:text-base space-y-6 leading-relaxed">
+              <div className="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed max-w-2xl">
                 <p>
-                  I am a code-slinging software engineer pursuing a B.Tech in Computer Science Engineering (focusing on Data Science &amp; AI) at BML Munjal University, Gurugram. Yes, I voluntarily read documentation for fun.
-                </p>
-                <p>
-                  From building multilingual crop-saving copilots like KishanBhai (incubated by IIT Ropar!) to designing email microservices and enterprise RAG systems that don&apos;t hallucinate, I enjoy creating software that couples serious engineering discipline with high utility.
+                  I am a software engineer specializing in AI integration and full-stack systems, currently pursuing a B.Tech at BML Munjal University. My work focuses on bridging the gap between raw intelligence and production utility—whether that means scaling semantic retrieval pipelines, engineering crop copilots with IIT Ropar, or designing resilient microservices.
                 </p>
               </div>
 
               {/* What Drives Me columns */}
-              <div className="grid grid-cols-2 gap-6 pt-6">
+              <div className="grid grid-cols-2 gap-6 pt-4">
                 {[
-                  { title: "Solve", desc: "Spot real-world bugs and address them before anyone notices." },
-                  { title: "Build", desc: "Write backend services that survive traffic spikes and clean, responsive UIs." },
-                  { title: "Deliver", desc: "Wire up vector databases and RAG pipelines without summoning AI hallucinations." },
-                  { title: "Improve", desc: "Chase 99% test coverage and squeeze milliseconds out of API response times." },
+                  { title: "Solve", desc: "Spot bugs and deploy fixes before anyone notices." },
+                  { title: "Build", desc: "Write resilient backends and clean, responsive interfaces." },
+                  { title: "Deliver", desc: "Design vector retrieval pipelines without LLM hallucinations." },
+                  { title: "Improve", desc: "Chase high test coverage and optimize API latencies." },
                 ].map((item, idx) => (
-                  <div key={idx} className="space-y-2">
-                    <h3 className="font-mono text-xs font-bold uppercase text-zinc-900 dark:text-white flex items-center gap-1.5">
+                  <div key={idx} className="space-y-1">
+                    <h3 className="font-mono text-sm font-bold uppercase tracking-wider text-zinc-900 dark:text-white flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
                       {item.title}
                     </h3>
-                    <p className="text-xs text-zinc-505 dark:text-zinc-400 leading-relaxed">{item.desc}</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-450 leading-relaxed">{item.desc}</p>
                   </div>
                 ))}
+              </div>
+
+              {/* Beyond Code tags - flat, unboxed list */}
+              <div className="mt-8 pt-6 border-t border-zinc-200/20 dark:border-zinc-800/20 max-w-2xl">
+                <h4 className="text-xs font-mono tracking-widest text-zinc-400 dark:text-zinc-500 uppercase mb-4">// Beyond Code (IRL Interests)</h4>
+                <div className="flex flex-wrap gap-3">
+                  {["Chess (Badly)", "Reading Docs", "Hackathons (For the pizza)", "Fitness", "Tech Podcasts", "Travel"].map((tag, i) => (
+                    <span
+                      key={i}
+                      className="px-3 py-1.5 border border-zinc-200/30 dark:border-zinc-800/30 text-xs font-mono rounded bg-zinc-500/5 dark:bg-zinc-500/5 text-zinc-600 dark:text-zinc-300 transition-colors duration-300"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
 
             {/* Right side portrait with Polaroid ejection printout & 3D parallax tilt */}
-            <div className="lg:col-span-5 flex justify-center relative">
+            <div className="lg:col-span-5 flex justify-center items-center relative">
               <motion.div
                 initial={{ opacity: 0, y: -200, scale: 0.85, rotate: -6 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1, rotate: 2 }}
@@ -529,28 +538,13 @@ export default function Home() {
               </motion.div>
             </div>
           </div>
-
-          {/* Beyond Code tags - flat, unboxed list */}
-          <div className="mt-20 pt-8 border-t border-zinc-200/20 dark:border-zinc-800/20 max-w-3xl">
-            <h4 className="text-xs font-mono tracking-widest text-zinc-400 uppercase mb-4">// Beyond Code (IRL Interests)</h4>
-            <div className="flex flex-wrap gap-3">
-              {["Chess (Badly)", "Reading Docs", "Hackathons (For the pizza)", "Fitness", "Tech Podcasts", "Travel"].map((tag, i) => (
-                <span
-                  key={i}
-                  className="px-3 py-1.5 border border-zinc-200/30 dark:border-zinc-800/30 text-xs font-mono rounded bg-zinc-500/5 dark:bg-zinc-500/5 text-zinc-600 dark:text-zinc-300 transition-colors duration-300"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 
       {/* 3. SKILLS SECTION */}
       <section
         id="skills"
-        className="py-32 px-6 md:px-12 relative z-0 transition-colors duration-1000"
+        className="py-20 px-6 md:px-12 relative z-0 transition-colors duration-1000"
         style={{ backgroundColor: "var(--color-skills)" }}
       >
         <div className="max-w-7xl mx-auto relative z-10">
@@ -571,7 +565,7 @@ export default function Home() {
       {/* 4. PROJECTS SECTION */}
       <section
         id="projects"
-        className="py-32 px-6 md:px-12 relative z-0 transition-colors duration-1000"
+        className="py-20 px-6 md:px-12 relative z-0 transition-colors duration-1000"
         style={{ backgroundColor: "var(--color-projects)" }}
       >
         <div className="max-w-7xl mx-auto relative z-10">
@@ -601,7 +595,7 @@ export default function Home() {
       {/* 5. ACHIEVEMENTS SECTION */}
       <section
         id="achievements"
-        className="py-32 px-6 md:px-12 relative z-0 transition-colors duration-1000"
+        className="py-20 px-6 md:px-12 relative z-0 transition-colors duration-1000"
         style={{ backgroundColor: "var(--color-achievements)" }}
       >
         <div className="max-w-7xl mx-auto relative z-10">
@@ -655,7 +649,7 @@ export default function Home() {
       {/* 6. EXPERIENCE SECTION */}
       <section
         id="experience"
-        className="py-32 px-6 md:px-12 relative z-0 transition-colors duration-1000"
+        className="py-20 px-6 md:px-12 relative z-0 transition-colors duration-1000"
         style={{ backgroundColor: "var(--color-experience)" }}
       >
         <div className="max-w-7xl mx-auto relative z-10">
@@ -673,7 +667,7 @@ export default function Home() {
       {/* 7. CONTACT SECTION */}
       <section
         id="contact"
-        className="py-32 px-6 md:px-12 relative z-0 transition-colors duration-1000"
+        className="py-20 px-6 md:px-12 relative z-0 transition-colors duration-1000"
         style={{ backgroundColor: "var(--color-contact)" }}
       >
         <InteractiveContact />

@@ -178,6 +178,20 @@ export default function InteractiveProjects() {
       {PROJECTS_DATA.map((project, idx) => {
         const isExpanded = expandedCard === project.id;
 
+        let borderClass = "border-zinc-300 dark:border-zinc-800 hover:border-zinc-500 dark:hover:border-zinc-700 shadow-sm hover:shadow-[0_8px_20px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_30px_rgba(0,0,0,0.6)]";
+        let lCornerClass = "border-zinc-400 dark:border-zinc-650";
+        
+        if (project.id === "01") {
+          borderClass = "border-blue-400/40 dark:border-blue-900/40 hover:border-blue-500/80 dark:hover:border-blue-700/80 shadow-[0_4px_15px_rgba(59,130,246,0.04)] dark:shadow-[0_8px_30px_rgba(59,130,246,0.08)]";
+          lCornerClass = "border-blue-500 dark:border-blue-500/60";
+        } else if (project.id === "02") {
+          borderClass = "border-emerald-400/40 dark:border-emerald-900/40 hover:border-emerald-500/80 dark:hover:border-emerald-700/80 shadow-[0_4px_15px_rgba(16,185,129,0.04)] dark:shadow-[0_8px_30px_rgba(16,185,129,0.08)]";
+          lCornerClass = "border-emerald-500 dark:border-emerald-500/60";
+        } else if (project.id === "03") {
+          borderClass = "border-orange-400/45 dark:border-orange-900/40 hover:border-orange-500/80 dark:hover:border-orange-700/80 shadow-[0_4px_15px_rgba(249,115,22,0.04)] dark:shadow-[0_8px_30px_rgba(249,115,22,0.08)]";
+          lCornerClass = "border-orange-500 dark:border-orange-500/60";
+        }
+
         return (
           <motion.div
             key={project.id}
@@ -185,7 +199,7 @@ export default function InteractiveProjects() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, delay: idx * 0.15, ease: "easeOut" }}
-            className="group relative bg-white/80 dark:bg-[#070707]/60 backdrop-blur-[3px] border border-zinc-400 dark:border-zinc-800 rounded-lg overflow-hidden shadow-sm hover:shadow-[0_8px_20px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_8px_30px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-zinc-600 dark:hover:border-zinc-700 hover:-translate-y-1"
+            className={`group relative bg-white/80 dark:bg-[#070707]/60 backdrop-blur-[3px] border rounded-lg overflow-hidden transition-all duration-300 hover:-translate-y-1 ${borderClass}`}
           >
             {/* AMBIENT BACKGROUND: Slow panning structural grid pattern */}
             <motion.div 
@@ -202,20 +216,20 @@ export default function InteractiveProjects() {
             />
 
             {/* CAD L-CORNER MARKERS (Fine architectural markings detailing borders) */}
-            <div className="absolute top-2 left-2 border-t border-l border-zinc-500 dark:border-zinc-700 w-3 h-3 pointer-events-none" />
-            <span className="absolute top-2.5 left-6 text-[7px] font-mono text-zinc-650 dark:text-zinc-500 pointer-events-none select-none tracking-widest">[0,0]</span>
+            <div className={`absolute top-2 left-2 border-t border-l w-3 h-3 pointer-events-none ${lCornerClass}`} />
+            <span className="absolute top-2.5 left-6 text-[7px] font-mono text-zinc-500 dark:text-zinc-500 pointer-events-none select-none tracking-widest">[0,0]</span>
 
-            <div className="absolute top-2 right-2 border-t border-r border-zinc-500 dark:border-zinc-700 w-3 h-3 pointer-events-none" />
-            <span className="absolute top-2.5 right-6 text-[7px] font-mono text-zinc-650 dark:text-zinc-500 pointer-events-none select-none tracking-widest">[W,0]</span>
+            <div className={`absolute top-2 right-2 border-t border-r w-3 h-3 pointer-events-none ${lCornerClass}`} />
+            <span className="absolute top-2.5 right-6 text-[7px] font-mono text-zinc-500 dark:text-zinc-500 pointer-events-none select-none tracking-widest">[W,0]</span>
 
-            <div className="absolute bottom-2 left-2 border-b border-l border-zinc-500 dark:border-zinc-700 w-3 h-3 pointer-events-none" />
-            <span className="absolute bottom-2.5 left-6 text-[7px] font-mono text-zinc-650 dark:text-zinc-500 pointer-events-none select-none tracking-widest">[0,H]</span>
+            <div className={`absolute bottom-2 left-2 border-b border-l w-3 h-3 pointer-events-none ${lCornerClass}`} />
+            <span className="absolute bottom-2.5 left-6 text-[7px] font-mono text-zinc-500 dark:text-zinc-500 pointer-events-none select-none tracking-widest">[0,H]</span>
 
-            <div className="absolute bottom-2 right-2 border-b border-r border-zinc-500 dark:border-zinc-700 w-3 h-3 pointer-events-none" />
-            <span className="absolute bottom-2.5 right-6 text-[7px] font-mono text-zinc-650 dark:text-zinc-500 pointer-events-none select-none tracking-widest">[W,H]</span>
+            <div className={`absolute bottom-2 right-2 border-b border-r w-3 h-3 pointer-events-none ${lCornerClass}`} />
+            <span className="absolute bottom-2.5 right-6 text-[7px] font-mono text-zinc-500 dark:text-zinc-500 pointer-events-none select-none tracking-widest">[W,H]</span>
 
             {/* Micro Crosshair Calibration Marks */}
-            <svg className="w-2 h-2 text-zinc-550 dark:text-zinc-600 absolute top-2.5 left-[48%] opacity-30" viewBox="0 0 10 10">
+            <svg className="w-2 h-2 text-zinc-400 dark:text-zinc-600 absolute top-2.5 left-[48%] opacity-30" viewBox="0 0 10 10">
               <circle cx="5" cy="5" r="4" fill="none" stroke="currentColor" strokeWidth="0.5" />
               <line x1="5" y1="0" x2="5" y2="10" stroke="currentColor" strokeWidth="0.5" />
               <line x1="0" y1="5" x2="10" y2="5" stroke="currentColor" strokeWidth="0.5" />
@@ -297,14 +311,14 @@ export default function InteractiveProjects() {
                   transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                   className="relative z-10 overflow-hidden bg-zinc-50/20 dark:bg-[#070707]/30"
                 >
-                  <div className="p-6 md:p-8 space-y-8 border-t border-zinc-400 dark:border-zinc-850">
+                  <div className="p-6 md:p-8 space-y-8 border-t border-zinc-300 dark:border-zinc-850">
                     
                     {/* Section 1: Detailed Description & Metrics Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
                       
                       {/* Left 2 Columns: Description & System Overview */}
                       <div className="md:col-span-2 space-y-4">
-                        <span className="text-[9px] font-mono text-zinc-600 dark:text-zinc-500 uppercase tracking-widest block">
+                        <span className="text-[9px] font-mono text-zinc-500 dark:text-zinc-400 uppercase tracking-widest block">
                           // Module Overview
                         </span>
                         <p className="text-sm text-zinc-800 dark:text-zinc-300 leading-relaxed font-sans pr-4">
@@ -313,14 +327,14 @@ export default function InteractiveProjects() {
                       </div>
 
                       {/* Right 1 Column: Mini Performance Indicators */}
-                      <div className="space-y-4 bg-zinc-200/45 dark:bg-zinc-900/10 border border-zinc-400 dark:border-zinc-850 rounded-lg p-4">
-                        <span className="text-[9px] font-mono text-zinc-650 dark:text-zinc-500 uppercase tracking-widest block mb-1">
+                      <div className="space-y-4 bg-zinc-200/45 dark:bg-zinc-900/10 border border-zinc-300 dark:border-zinc-850 rounded-lg p-4">
+                        <span className="text-[9px] font-mono text-zinc-500 dark:text-zinc-400 uppercase tracking-widest block mb-1">
                           // Performance Indicators
                         </span>
                         <div className="space-y-3">
                           {project.detailedMetrics.map((met, mIdx) => (
                             <div key={mIdx} className="flex justify-between items-center text-xs font-mono">
-                              <span className="text-zinc-700 dark:text-zinc-455">{met.label}</span>
+                              <span className="text-zinc-600 dark:text-zinc-400">{met.label}</span>
                               <span className="text-zinc-900 dark:text-zinc-100 font-bold">
                                 <Odometer value={met.val} />
                               </span>
@@ -333,7 +347,7 @@ export default function InteractiveProjects() {
 
                     {/* Section 2: Architecture Flow Visualization */}
                     <div className="space-y-4">
-                      <span className="text-[9px] font-mono text-zinc-600 dark:text-zinc-500 uppercase tracking-widest block">
+                      <span className="text-[9px] font-mono text-zinc-500 dark:text-zinc-400 uppercase tracking-widest block">
                         // System Data Flow Pipeline
                       </span>
                       
@@ -341,18 +355,18 @@ export default function InteractiveProjects() {
                         {project.systemFlow.map((flow, fIdx) => (
                           <div 
                             key={fIdx}
-                            className="bg-white/80 dark:bg-[#0c0c0c]/80 border border-zinc-400 dark:border-zinc-850 rounded-lg p-4 space-y-2 relative transition-all duration-300 hover:border-zinc-600 dark:hover:border-zinc-750"
+                            className="bg-white/80 dark:bg-[#0c0c0c]/80 border border-zinc-300 dark:border-zinc-850 rounded-lg p-4 space-y-2 relative transition-all duration-300 hover:border-zinc-500 dark:hover:border-zinc-700"
                           >
                             <div className="flex items-center justify-between">
-                              <span className="text-[9px] font-mono text-zinc-600 dark:text-zinc-500 uppercase font-semibold">
+                              <span className="text-[9px] font-mono text-zinc-500 dark:text-zinc-400 uppercase font-semibold">
                                 Stage 0{fIdx + 1}
                               </span>
-                              <Network className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-700" />
+                              <Network className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-650" />
                             </div>
                             <h4 className="text-xs font-mono font-bold text-zinc-900 dark:text-zinc-200">
                               {flow.label}
                             </h4>
-                            <p className="text-[11px] text-zinc-700 dark:text-zinc-355 leading-snug">
+                            <p className="text-[11px] text-zinc-600 dark:text-zinc-400 leading-snug">
                               {flow.detail}
                             </p>
                           </div>
@@ -361,14 +375,14 @@ export default function InteractiveProjects() {
                     </div>
 
                     {/* Section 3: Tech stack chips & Action buttons */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pt-4 border-t border-zinc-450 dark:border-zinc-855">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pt-4 border-t border-zinc-300 dark:border-zinc-800">
                       
                       {/* Tech Chips Staggered reveal */}
                       <div className="flex flex-wrap gap-1.5">
                         {project.tech.map((t, tIdx) => (
                           <span 
                             key={tIdx} 
-                            className="text-[10px] font-mono px-2.5 py-1 border border-zinc-400 dark:border-zinc-800/80 bg-white dark:bg-[#0a0a0a] rounded text-zinc-800 dark:text-zinc-300 select-none"
+                            className="text-[10px] font-mono px-2.5 py-1 border border-zinc-300 dark:border-zinc-800 bg-white dark:bg-[#0a0a0a] rounded text-zinc-800 dark:text-zinc-300 select-none"
                           >
                             {t}
                           </span>
@@ -381,7 +395,7 @@ export default function InteractiveProjects() {
                           href={project.github}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-1.5 border border-zinc-400 dark:border-zinc-800/80 bg-white dark:bg-[#0c0c0c] hover:border-zinc-600 dark:hover:border-zinc-700 rounded text-xs font-mono text-zinc-700 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-all select-none"
+                          className="flex items-center gap-2 px-3 py-1.5 border border-zinc-300 dark:border-zinc-800 bg-white dark:bg-[#0c0c0c] hover:border-zinc-500 dark:hover:border-zinc-600 rounded text-xs font-mono text-zinc-700 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-all select-none"
                         >
                           <Github className="w-3.5 h-3.5" /> Source Code
                         </a>
@@ -389,7 +403,7 @@ export default function InteractiveProjects() {
                           href={project.live}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-1.5 border border-zinc-450 dark:border-zinc-800/80 bg-zinc-900 dark:bg-zinc-800 hover:bg-zinc-800 dark:hover:bg-zinc-750 rounded text-xs font-mono text-white select-none transition-all"
+                          className="flex items-center gap-2 px-3 py-1.5 border border-zinc-300 dark:border-zinc-800 bg-zinc-900 dark:bg-zinc-800 hover:bg-zinc-800 dark:hover:bg-zinc-700 rounded text-xs font-mono text-white select-none transition-all"
                         >
                           Launch App <ExternalLink className="w-3.5 h-3.5" />
                         </a>
