@@ -537,20 +537,20 @@ export default function TechKeyboard() {
         {/* SHEET MUSIC PAPER DISPLAY */}
         <motion.div 
           whileHover={{ y: -2, boxShadow: "inset 0 2px 4px rgba(0,0,0,0.05), 0 5px 15px rgba(0,0,0,0.15)" }}
-          className="relative w-full bg-zinc-100 border border-zinc-200 rounded-xl p-4 min-h-[110px] flex items-center justify-between mb-5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.05)] overflow-hidden transition-all duration-300"
+          className="relative w-full bg-zinc-100 border border-zinc-400 rounded-xl p-4 min-h-[110px] flex items-center justify-between mb-5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.05)] overflow-hidden transition-all duration-300"
         >
           <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex flex-col justify-between h-[30px] pointer-events-none opacity-20">
-            <div className="h-[1px] bg-zinc-600" />
-            <div className="h-[1px] bg-zinc-600" />
-            <div className="h-[1px] bg-zinc-600" />
-            <div className="h-[1px] bg-zinc-600" />
-            <div className="h-[1px] bg-zinc-600" />
+            <div className="h-[1px] bg-zinc-800" />
+            <div className="h-[1px] bg-zinc-800" />
+            <div className="h-[1px] bg-zinc-800" />
+            <div className="h-[1px] bg-zinc-800" />
+            <div className="h-[1px] bg-zinc-800" />
           </div>
 
           <div className="flex w-full items-center gap-3 relative z-10 font-serif">
             <motion.div 
               whileHover={{ rotate: 10, scale: 1.05 }}
-              className="text-4xl md:text-5xl text-zinc-600 select-none pr-3 border-r border-zinc-300 leading-none cursor-pointer"
+              className="text-4xl md:text-5xl text-zinc-800 select-none pr-3 border-r border-zinc-500 leading-none cursor-pointer"
             >
               𝄞
             </motion.div>
@@ -564,10 +564,10 @@ export default function TechKeyboard() {
                   transition={{ duration: 0.15 }}
                 >
                   <div className="flex items-baseline gap-2 mb-0.5">
-                    <span className="text-[9px] md:text-xs text-zinc-500 tracking-widest font-mono uppercase">
+                    <span className="text-[9px] md:text-xs text-zinc-700 tracking-widest font-mono uppercase">
                       {getTempoLabel(displayedKey.category)}
                     </span>
-                    <span className="text-[10px] text-zinc-400 font-mono">
+                    <span className="text-[10px] text-zinc-600 font-mono">
                       [Key: {displayedKey.keyLabel}]
                     </span>
                   </div>
@@ -576,7 +576,7 @@ export default function TechKeyboard() {
                     Opus: {displayedKey.name} ({displayedKey.estYear})
                   </h3>
                   
-                  <p className="text-xs md:text-sm text-zinc-700 italic leading-snug mt-0.5 font-serif pr-2">
+                  <p className="text-xs md:text-sm text-zinc-800 italic leading-snug mt-0.5 font-serif pr-2">
                     &ldquo;{displayedKey.definition}&rdquo;
                   </p>
                 </motion.div>
@@ -585,23 +585,23 @@ export default function TechKeyboard() {
                   key="idle"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="text-zinc-500 text-xs flex flex-col justify-center font-serif"
+                  className="text-zinc-700 text-xs flex flex-col justify-center font-serif"
                 >
                   <div className="flex items-center gap-1.5 mb-0.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 animate-pulse" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-650 animate-pulse" />
                     <span className="text-[9px] tracking-wider uppercase font-mono">System Standby</span>
                   </div>
-                  <h3 className="text-base md:text-lg font-bold text-zinc-500 leading-tight">
+                  <h3 className="text-base md:text-lg font-bold text-zinc-750 leading-tight">
                     Opus 1: Developer's Symphony
                   </h3>
-                  <p className="text-[11px] italic mt-0.5 text-zinc-400">
+                  <p className="text-[11px] italic mt-0.5 text-zinc-600">
                     Press keys (Q W E R T Y U I A S H Z X C V / W D F G J K L N M) to compose your masterpiece.
                   </p>
                 </motion.div>
               )}
             </div>
 
-            <div className="hidden sm:flex items-center justify-center w-12 h-12 rounded-full bg-zinc-200/50 border border-zinc-300 text-zinc-600">
+            <div className="hidden sm:flex items-center justify-center w-12 h-12 rounded-full bg-zinc-200/50 border border-zinc-500 text-zinc-800">
               {displayedKey ? (
                 <motion.div
                   key={displayedKey.name}

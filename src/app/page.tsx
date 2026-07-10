@@ -3,15 +3,15 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Mail, 
-  ArrowRight, 
-  ArrowUpRight, 
-  Code2, 
-  BrainCircuit, 
-  Globe, 
-  Briefcase, 
-  Layers, 
+import {
+  Mail,
+  ArrowRight,
+  ArrowUpRight,
+  Code2,
+  BrainCircuit,
+  Globe,
+  Briefcase,
+  Layers,
   Award,
   Send,
   CheckCircle,
@@ -42,6 +42,9 @@ import DynamicSculpture from "@/components/DynamicSculpture";
 import { useTheme } from "@/components/ThemeProvider";
 import TechKeyboard from "@/components/TechKeyboard";
 import InteractiveStats from "@/components/InteractiveStats";
+import InteractiveProjects from "@/components/InteractiveProjects";
+import InteractiveExperience from "@/components/InteractiveExperience";
+import InteractiveContact from "@/components/InteractiveContact";
 
 export default function Home() {
   const { theme } = useTheme();
@@ -217,45 +220,45 @@ export default function Home() {
   ];
 
   // Projects Data
-    const projects = [
-      {
-        id: "01",
-        title: "EAOS Simplified",
-        subtitle: "AI-Assisted Email Operations Platform",
-        tech: ["FastAPI", "React.js", "PostgreSQL", "SMTP/IMAP"],
-        metric: "40% Efficiency Increase",
-        desc: "Engineered AI-powered outreach automation platform supporting 1K+ workflows with batch sending, inbox synchronization, and thread-aware response pipelines.",
-        github: "https://github.com/devokdev/EAOS_Simplified",
-        live: "https://eaos-web-chi.vercel.app/"
-      },
-      {
-        id: "02",
-        title: "KishanBhai",
-        subtitle: "AI Agricultural Assistance Platform",
-        tech: ["React.js", "Next.js", "Firebase", "Gemini AI", "Flutter"],
-        metric: "IIT Ropar Incubation Support",
-        desc: "Multilingual AI-powered platform featuring crop disease detection, weather forecasts, and voice assistance across 5 Indian languages to mitigate crop loss.",
-        github: "https://github.com/devokdev/KishanBhai",
-        live: "https://kishan-bhai.vercel.app/"
-      },
-      {
-        id: "03",
-        title: "Codebase Intelligence",
-        subtitle: "Semantic Retrieval Engine",
-        tech: ["Python", "FastAPI", "FAISS", "PostgreSQL", "Docker"],
-        metric: "35% Search Latency Reduction",
-        desc: "FastAPI microservice following clean architecture, optimizing FAISS vector search, yielding +8.4% ROUGE-L and +47% domain alignment score.",
-        github: "https://github.com/devokdev/Codebase-explanator",
-        live: "https://github.com/devokdev/Codebase-explanator"
-      }
-    ];
+  const projects = [
+    {
+      id: "01",
+      title: "EAOS Simplified",
+      subtitle: "AI-Assisted Email Operations Platform",
+      tech: ["FastAPI", "React.js", "PostgreSQL", "SMTP/IMAP"],
+      metric: "40% Efficiency Increase",
+      desc: "Engineered AI-powered outreach automation platform supporting 1K+ workflows with batch sending, inbox synchronization, and thread-aware response pipelines.",
+      github: "https://github.com/devokdev/EAOS_Simplified",
+      live: "https://eaos-web-chi.vercel.app/"
+    },
+    {
+      id: "02",
+      title: "KishanBhai",
+      subtitle: "AI Agricultural Assistance Platform",
+      tech: ["React.js", "Next.js", "Firebase", "Gemini AI", "Flutter"],
+      metric: "IIT Ropar Incubation Support",
+      desc: "Multilingual AI-powered platform featuring crop disease detection, weather forecasts, and voice assistance across 5 Indian languages to mitigate crop loss.",
+      github: "https://github.com/devokdev/KishanBhai",
+      live: "https://kishan-bhai.vercel.app/"
+    },
+    {
+      id: "03",
+      title: "Codebase Intelligence",
+      subtitle: "Semantic Retrieval Engine",
+      tech: ["Python", "FastAPI", "FAISS", "PostgreSQL", "Docker"],
+      metric: "35% Search Latency Reduction",
+      desc: "FastAPI microservice following clean architecture, optimizing FAISS vector search, yielding +8.4% ROUGE-L and +47% domain alignment score.",
+      github: "https://github.com/devokdev/Codebase-explanator",
+      live: "https://github.com/devokdev/Codebase-explanator"
+    }
+  ];
 
   // Achievements Data
   const achievements = [
-    { id: "01", title: "Google Agentic AI Hackathon", role: "Finalist 2025" },
-    { id: "02", title: "IIT Ropar GenAI Hackathon", role: "3rd Place Winner" },
-    { id: "03", title: "Amity Innovation Challenge", role: "Top 8 Finalist 2025" },
-    { id: "04", title: "Academic Excellence & Performance", role: "CSE Merit Scholar | B.Tech CGPA: 8.72/10.0" }
+    { id: "01", title: "Google Agentic AI Hackathon", role: "Survived the Finals 2025" },
+    { id: "02", title: "IIT Ropar GenAI Hackathon", role: "3rd Place & Free T-Shirt" },
+    { id: "03", title: "Amity Innovation Challenge", role: "Top 8 Finalist (Almost Famous)" },
+    { id: "04", title: "Academic Excellence & Performance", role: "CSE Merit Scholar | B.Tech CGPA: 8.72 (Parents approved)" }
   ];
 
   return (
@@ -279,7 +282,7 @@ export default function Home() {
 
             {/* Center Plaque Box with project-card style L-corners */}
             <div className="relative w-80 p-8 bg-zinc-950/75 border border-zinc-800/40 backdrop-blur-md flex flex-col items-center text-center">
-              
+
               {/* Cyber Blueprint L-Corners */}
               <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-zinc-700" />
               <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-zinc-700" />
@@ -288,16 +291,16 @@ export default function Home() {
 
               {/* Top telemetry tag */}
               <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest mb-6 block">
-                // BOOT_SEQUENCE: INITIALIZING
+                // BOOT_SEQUENCE: INITIALIZING COFFEE RECEPTORS
               </span>
 
               {/* System Load Status */}
               <div className="h-6 overflow-hidden mb-6 flex items-center justify-center">
                 <span className="text-[10px] font-mono text-zinc-300 tracking-wider">
-                  {loadingProgress < 3 && "CONNECTING INTERFACES..."}
-                  {loadingProgress >= 3 && loadingProgress < 7 && "LOADING ASSETS & MODELS..."}
-                  {loadingProgress >= 7 && loadingProgress < 10 && "COMPILING BLUEPRINTS..."}
-                  {loadingProgress === 10 && "SYSTEM ACTIVE"}
+                  {loadingProgress < 3 && "CONNECTING INTERFACES & WATERING PIANO..."}
+                  {loadingProgress >= 3 && loadingProgress < 7 && "LOADING SHINY PIXELS & AI BUZZWORDS..."}
+                  {loadingProgress >= 7 && loadingProgress < 10 && "COMPILING BLUEPRINTS WITHOUT WARNINGS..."}
+                  {loadingProgress === 10 && "SYSTEM ACTIVE (HIRE THIS GUY)"}
                 </span>
               </div>
 
@@ -308,11 +311,10 @@ export default function Home() {
                   return (
                     <div
                       key={i}
-                      className={`h-4 flex-1 transition-all duration-300 rounded-none ${
-                        isActive
+                      className={`h-4 flex-1 transition-all duration-300 rounded-none ${isActive
                           ? "bg-zinc-100 shadow-[0_0_8px_rgba(255,255,255,0.4)]"
                           : "bg-zinc-900 border border-zinc-850"
-                      }`}
+                        }`}
                     />
                   );
                 })}
@@ -320,7 +322,7 @@ export default function Home() {
 
               {/* Percentage Counter */}
               <span className="text-[10px] font-mono text-zinc-400">
-                {Math.min(loadingProgress * 10, 100)}% LOADED
+                {Math.min(loadingProgress * 10, 100)}% COMPILING
               </span>
             </div>
           </motion.div>
@@ -330,8 +332,8 @@ export default function Home() {
       <Navbar />
 
       {/* 1. HERO SECTION */}
-      <section 
-        id="home" 
+      <section
+        id="home"
         className="min-h-screen flex flex-col justify-center pt-24 px-6 md:px-12 max-w-7xl mx-auto relative z-0 overflow-hidden transition-colors duration-1000"
         style={{ backgroundColor: "var(--color-home)" }}
       >
@@ -339,7 +341,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center flex-1 py-12">
             {/* Left Column: Typography */}
             <div className="lg:col-span-7 flex flex-col justify-center sm:text-left text-center">
-              <motion.p 
+              <motion.p
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
@@ -347,7 +349,7 @@ export default function Home() {
               >
                 Hello, I&apos;m
               </motion.p>
-              <motion.h1 
+              <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.3 }}
@@ -363,31 +365,31 @@ export default function Home() {
                 transition={{ duration: 1, delay: 0.5 }}
                 className="mt-6 border-l-2 border-zinc-200 dark:border-zinc-800 pl-4 py-1 text-left max-w-sm"
               >
-                <p className="text-xs font-mono text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
-                  Product Engineer / AI Builder / Full Stack Developer
+                <p className="text-xs font-mono text-zinc-500 dark:text-zinc-400 uppercase tracking-wider font-semibold">
+                  Product Engineer / AI Whisperer / Part-time Bug Creator
                 </p>
               </motion.div>
 
-              <motion.p 
+              <motion.p
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
                 className="mt-8 text-sm md:text-base text-zinc-600 dark:text-zinc-400 max-w-md leading-relaxed"
               >
-                I build intelligent systems and digital products that solve real-world problems. Turning ideas into impact through code and design.
+                I build overly smart AI systems and digital products that actually solve real-world problems. Designing things so clean you could eat off them, and writing code that mostly compiles on the first attempt.
               </motion.p>
 
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.8 }}
                 className="mt-10 flex flex-wrap gap-4 justify-center sm:justify-start"
               >
-                <button 
+                <button
                   onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
                   className="flex items-center gap-3 bg-zinc-900 hover:bg-zinc-800 text-zinc-50 dark:bg-zinc-100 dark:hover:bg-zinc-200 dark:text-zinc-900 px-6 py-3.5 rounded-md font-mono text-xs uppercase tracking-wider transition-all duration-300 group shadow-md"
                 >
-                  Explore My Work 
+                  Explore My Labor
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
               </motion.div>
@@ -405,8 +407,8 @@ export default function Home() {
           <InteractiveStats />
         </div>
       </section>      {/* 2. ABOUT ME SECTION */}
-      <section 
-        id="about" 
+      <section
+        id="about"
         className="py-32 px-6 md:px-12 relative z-0 transition-colors duration-1000"
         style={{ backgroundColor: "var(--color-about)" }}
       >
@@ -414,27 +416,27 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             {/* Left side info */}
             <div className="lg:col-span-7 space-y-8">
-              <span className="text-xs font-mono tracking-widest text-zinc-400 dark:text-zinc-500 uppercase">// 02 About Me</span>
+              <span className="text-base md:text-lg font-mono font-bold tracking-wider text-zinc-550 dark:text-zinc-400 uppercase">// 02 About Me</span>
               <h2 className="text-3xl md:text-5xl font-sans font-bold text-zinc-900 dark:text-white leading-tight">
-                I build systems that solve real world problems.
+                I build systems that actually work <span className="text-[0.55em] font-normal text-zinc-500 dark:text-zinc-400 block md:inline md:ml-1">(unlike my sleep schedule).</span>
               </h2>
-              
+
               <div className="text-zinc-600 dark:text-zinc-400 text-sm md:text-base space-y-6 leading-relaxed">
                 <p>
-                  I am a passionate software engineer currently pursuing a Bachelor of Technology in Computer Science Engineering, with a focus on Data Science &amp; AI at BML Munjal University, Gurugram.
+                  I am a code-slinging software engineer pursuing a B.Tech in Computer Science Engineering (focusing on Data Science &amp; AI) at BML Munjal University, Gurugram. Yes, I voluntarily read documentation for fun.
                 </p>
                 <p>
-                  From building multilingual agricultural tools like <strong className="text-zinc-900 dark:text-zinc-100 font-medium">KishanBhai</strong> (which was selected for IIT Ropar incubation) to designing robust email microservices and enterprise RAG systems, I enjoy creating software that couples architectural discipline with high utility.
+                  From building multilingual crop-saving copilots like KishanBhai (incubated by IIT Ropar!) to designing email microservices and enterprise RAG systems that don&apos;t hallucinate, I enjoy creating software that couples serious engineering discipline with high utility.
                 </p>
               </div>
 
               {/* What Drives Me columns */}
               <div className="grid grid-cols-2 gap-6 pt-6">
                 {[
-                  { title: "Solve", desc: "Identify real problems and create actionable digital solutions." },
-                  { title: "Build", desc: "Write scalable backend microservices and modern, performant web UIs." },
-                  { title: "Deliver", desc: "Integrate vector databases, retrieval systems, and reliable API layers." },
-                  { title: "Improve", desc: "Maintain high test coverage, clean structure, and optimized performance." },
+                  { title: "Solve", desc: "Spot real-world bugs and address them before anyone notices." },
+                  { title: "Build", desc: "Write backend services that survive traffic spikes and clean, responsive UIs." },
+                  { title: "Deliver", desc: "Wire up vector databases and RAG pipelines without summoning AI hallucinations." },
+                  { title: "Improve", desc: "Chase 99% test coverage and squeeze milliseconds out of API response times." },
                 ].map((item, idx) => (
                   <div key={idx} className="space-y-2">
                     <h3 className="font-mono text-xs font-bold uppercase text-zinc-900 dark:text-white flex items-center gap-1.5">
@@ -449,12 +451,12 @@ export default function Home() {
 
             {/* Right side portrait with Polaroid ejection printout & 3D parallax tilt */}
             <div className="lg:col-span-5 flex justify-center relative">
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: -200, scale: 0.85, rotate: -6 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1, rotate: 2 }}
                 viewport={{ once: true, margin: "-100px" }}
                 onViewportEnter={triggerCameraFlash}
-                animate={{ 
+                animate={{
                   rotateX: portraitTilt.x,
                   rotateY: portraitTilt.y,
                 }}
@@ -473,7 +475,7 @@ export default function Home() {
                 }}
               >
                 {/* Square Polaroid Photo Area with localized developing effect */}
-                <div 
+                <div
                   className="relative w-full aspect-square bg-zinc-950 overflow-hidden border border-zinc-900/10 shadow-inner"
                   style={{
                     transform: "translateZ(30px)",
@@ -504,25 +506,25 @@ export default function Home() {
                     />
                   )}
                 </div>
-                
+
                 {/* Radial Hover Shine Element (simulating paper light reflections) */}
-                <div 
+                <div
                   className="absolute inset-0 pointer-events-none transition-opacity duration-300 z-20"
                   style={{
                     opacity: portraitGlow.opacity,
                     background: `radial-gradient(circle 180px at ${portraitGlow.x}px ${portraitGlow.y}px, rgba(255,255,255,0.12), transparent)`,
                   }}
                 />
-                
+
                 {/* Polaroid Signature/Caption Area (monospaced handwritten marker feel in black) */}
-                <div 
+                <div
                   className="mt-6 text-center font-mono italic text-xs tracking-wider text-black font-bold"
                   style={{
                     transform: "translateZ(15px)",
                   }}
                 >
                   <p className="text-black text-sm font-bold">Kartavya Dev</p>
-                  <p className="text-zinc-700 font-medium mt-1">Delhi NCR, India — July 2026</p>
+                  <p className="text-zinc-700 font-medium mt-1">Delhi NCR, India — Mostly Caffeinated</p>
                 </div>
               </motion.div>
             </div>
@@ -530,11 +532,11 @@ export default function Home() {
 
           {/* Beyond Code tags - flat, unboxed list */}
           <div className="mt-20 pt-8 border-t border-zinc-200/20 dark:border-zinc-800/20 max-w-3xl">
-            <h4 className="text-xs font-mono tracking-widest text-zinc-400 uppercase mb-4">// Beyond Code</h4>
+            <h4 className="text-xs font-mono tracking-widest text-zinc-400 uppercase mb-4">// Beyond Code (IRL Interests)</h4>
             <div className="flex flex-wrap gap-3">
-              {["Chess", "Reading", "Hackathons", "Fitness", "Tech Podcasts", "Travel"].map((tag, i) => (
-                <span 
-                  key={i} 
+              {["Chess (Badly)", "Reading Docs", "Hackathons (For the pizza)", "Fitness", "Tech Podcasts", "Travel"].map((tag, i) => (
+                <span
+                  key={i}
                   className="px-3 py-1.5 border border-zinc-200/30 dark:border-zinc-800/30 text-xs font-mono rounded bg-zinc-500/5 dark:bg-zinc-500/5 text-zinc-600 dark:text-zinc-300 transition-colors duration-300"
                 >
                   {tag}
@@ -546,16 +548,16 @@ export default function Home() {
       </section>
 
       {/* 3. SKILLS SECTION */}
-      <section 
-        id="skills" 
+      <section
+        id="skills"
         className="py-32 px-6 md:px-12 relative z-0 transition-colors duration-1000"
         style={{ backgroundColor: "var(--color-skills)" }}
       >
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="mb-16">
-            <span className="text-xs font-mono tracking-widest text-zinc-400 dark:text-zinc-500 uppercase">// 03 Capabilities</span>
+            <span className="text-base md:text-lg font-mono font-bold tracking-wider text-zinc-550 dark:text-zinc-400 uppercase">// 03 Capabilities & Powers</span>
             <h2 className="text-3xl md:text-5xl font-sans font-bold text-zinc-900 dark:text-white mt-4">
-              Tools I use. Skills I master.
+              The instruments of my digital skillset.
             </h2>
           </div>
 
@@ -567,22 +569,22 @@ export default function Home() {
       </section>
 
       {/* 4. PROJECTS SECTION */}
-      <section 
-        id="projects" 
+      <section
+        id="projects"
         className="py-32 px-6 md:px-12 relative z-0 transition-colors duration-1000"
         style={{ backgroundColor: "var(--color-projects)" }}
       >
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <span className="text-xs font-mono tracking-widest text-zinc-400 dark:text-zinc-500 uppercase">// 04 Featured Work</span>
+              <span className="text-base md:text-lg font-mono font-bold tracking-wider text-zinc-550 dark:text-zinc-400 uppercase">// 04 Proof of Labor</span>
               <h2 className="text-3xl md:text-5xl font-sans font-bold text-zinc-900 dark:text-white mt-4">
-                Things I&apos;ve built with purpose.
+                Systems built with architectural pride <span className="text-[0.55em] font-normal text-zinc-500 dark:text-zinc-400 block mt-1.5">(and a lot of coffee).</span>
               </h2>
             </div>
-            
-            <a 
-              href="https://github.com/devokdev/" 
+
+            <a
+              href="https://github.com/devokdev/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-xs font-mono tracking-widest uppercase border-b border-zinc-400 dark:border-zinc-600 hover:border-zinc-900 dark:hover:border-zinc-100 pb-1 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
@@ -592,148 +594,21 @@ export default function Home() {
           </div>
 
           {/* Large Project exhibits - technical blueprint modules */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {projects.map((project, idx) => (
-              <motion.div
-                key={project.id}
-                initial="initial"
-                whileHover="hover"
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                animate={{ y: [0, -5, 0] }}
-                variants={{
-                  initial: { opacity: 0, y: 40 },
-                  hover: { y: -10, scale: 1.02 }
-                }}
-                transition={{
-                  y: { repeat: Infinity, duration: 6 + idx * 0.5, ease: "easeInOut" },
-                  opacity: { duration: 0.8, delay: idx * 0.15 },
-                  default: { duration: 0.8, delay: idx * 0.15 }
-                }}
-                className="flex flex-col justify-between min-h-[480px] p-8 bg-[#fbfbfa] dark:bg-[#0f0f0f] border border-black/5 dark:border-white/5 rounded-none shadow-sm hover:shadow-2xl transition-all duration-300 relative z-10 overflow-hidden"
-              >
-                {/* Dotted Grid Background */}
-                <div className="absolute inset-0 bg-[radial-gradient(rgba(0,0,0,0.015)_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.015)_1px,transparent_1px)] [background-size:12px_12px] pointer-events-none z-0" />
-
-                {/* Laser scan sweep line */}
-                <motion.div 
-                  variants={{
-                    initial: { top: "-10%", opacity: 0 },
-                    hover: { top: "110%", opacity: [0, 1, 1, 0], transition: { duration: 1.2, ease: "easeInOut" } }
-                  }}
-                  className="absolute inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent pointer-events-none z-10"
-                />
-
-                {/* Cyber Blueprint L-Corners */}
-                <motion.div 
-                  variants={{
-                    initial: { width: 6, height: 6, borderColor: "rgba(120, 120, 120, 0.25)" },
-                    hover: { width: 14, height: 14, borderColor: "rgba(16, 185, 129, 0.7)" }
-                  }}
-                  className="absolute top-0 left-0 border-t border-l pointer-events-none transition-colors duration-200"
-                />
-                <motion.div 
-                  variants={{
-                    initial: { width: 6, height: 6, borderColor: "rgba(120, 120, 120, 0.25)" },
-                    hover: { width: 14, height: 14, borderColor: "rgba(16, 185, 129, 0.7)" }
-                  }}
-                  className="absolute top-0 right-0 border-t border-r pointer-events-none transition-colors duration-200"
-                />
-                <motion.div 
-                  variants={{
-                    initial: { width: 6, height: 6, borderColor: "rgba(120, 120, 120, 0.25)" },
-                    hover: { width: 14, height: 14, borderColor: "rgba(16, 185, 129, 0.7)" }
-                  }}
-                  className="absolute bottom-0 left-0 border-b border-l pointer-events-none transition-colors duration-200"
-                />
-                <motion.div 
-                  variants={{
-                    initial: { width: 6, height: 6, borderColor: "rgba(120, 120, 120, 0.25)" },
-                    hover: { width: 14, height: 14, borderColor: "rgba(16, 185, 129, 0.7)" }
-                  }}
-                  className="absolute bottom-0 right-0 border-b border-r pointer-events-none transition-colors duration-200"
-                />
-
-                <div className="relative z-10">
-                  <div className="flex justify-between items-center mb-6 border-b border-zinc-200/10 dark:border-zinc-800/20 pb-4">
-                    <span className="text-[10px] font-mono tracking-widest text-zinc-400 dark:text-zinc-500 uppercase">// SYS_MOD_{project.id}</span>
-                    <span className="text-[9px] font-mono px-2 py-0.5 border border-zinc-200/20 dark:border-zinc-850 bg-zinc-500/5 text-zinc-450 dark:text-zinc-500 rounded-none uppercase">
-                      Active
-                    </span>
-                  </div>
-
-                  {/* Header Title with min-height for horizontal line alignment */}
-                  <div className="min-h-[84px] flex flex-col justify-start">
-                    <h3 className="text-2xl font-bold font-sans text-zinc-900 dark:text-white leading-tight">
-                      {project.title}
-                    </h3>
-                    <p className="text-xs font-mono text-zinc-450 mt-1 uppercase tracking-wider">
-                      {project.subtitle}
-                    </p>
-                  </div>
-
-                  <div className="my-6 border-y border-zinc-200/10 dark:border-zinc-800/20 py-3 flex justify-between items-center">
-                    <div>
-                      <span className="text-[9px] font-mono text-zinc-450 uppercase tracking-widest block">Key Highlight</span>
-                      <span className="text-xs font-mono font-bold text-zinc-800 dark:text-zinc-200 uppercase mt-0.5 block">
-                        {project.metric}
-                      </span>
-                    </div>
-                    <span className="w-1.5 h-1.5 bg-emerald-500 animate-pulse" />
-                  </div>
-
-                  <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed min-h-[72px]">
-                    {project.desc}
-                  </p>
-                </div>
-
-                <div className="mt-8 space-y-4 relative z-10">
-                  {/* Tech chips */}
-                  <div className="flex flex-wrap gap-1.5">
-                    {project.tech.map((t, tIdx) => (
-                      <span key={tIdx} className="text-[10px] font-mono px-2 py-0.5 border border-zinc-200/10 dark:border-zinc-800/20 bg-zinc-500/5 rounded-none text-zinc-500 dark:text-zinc-400">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Actions */}
-                  <div className="flex items-center gap-4 pt-2">
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 text-xs font-mono text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
-                    >
-                      <GithubIcon className="w-3.5 h-3.5" /> Source
-                    </a>
-                    <a
-                      href={project.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 text-xs font-mono text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
-                    >
-                      Live <ArrowUpRight className="w-3.5 h-3.5" />
-                    </a>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          <InteractiveProjects />
         </div>
       </section>
 
       {/* 5. ACHIEVEMENTS SECTION */}
-      <section 
-        id="achievements" 
+      <section
+        id="achievements"
         className="py-32 px-6 md:px-12 relative z-0 transition-colors duration-1000"
         style={{ backgroundColor: "var(--color-achievements)" }}
       >
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="mb-16">
-            <span className="text-xs font-mono tracking-widest text-zinc-400 dark:text-zinc-500 uppercase">// 05 Milestones</span>
+            <span className="text-base md:text-lg font-mono font-bold tracking-wider text-zinc-550 dark:text-zinc-400 uppercase">// 05 Milestones & Medals</span>
             <h2 className="text-3xl md:text-5xl font-sans font-bold text-zinc-900 dark:text-white mt-4">
-              Recognitions &amp; Milestones.
+              Proof that my code compiled elsewhere.
             </h2>
           </div>
 
@@ -751,7 +626,7 @@ export default function Home() {
               >
                 {/* Index / Number */}
                 <div className="col-span-12 md:col-span-2 text-xs font-mono text-zinc-400 dark:text-zinc-500">
-                  Award // 0{idx+1}
+                  Award // 0{idx + 1}
                 </div>
 
                 {/* Milestone Title */}
@@ -777,232 +652,30 @@ export default function Home() {
       </section>
 
       {/* 6. EXPERIENCE SECTION */}
-      <section 
-        id="experience" 
+      <section
+        id="experience"
         className="py-32 px-6 md:px-12 relative z-0 transition-colors duration-1000"
         style={{ backgroundColor: "var(--color-experience)" }}
       >
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="mb-16">
-            <span className="text-xs font-mono tracking-widest text-zinc-400 dark:text-zinc-500 uppercase">// 06 Professional Path</span>
+            <span className="text-base md:text-lg font-mono font-bold tracking-wider text-zinc-550 dark:text-zinc-400 uppercase">// 06 Timeline of Employment</span>
             <h2 className="text-3xl md:text-5xl font-sans font-bold text-zinc-900 dark:text-white mt-4">
-              Architectural Timeline.
+              My journey from junior compiler to systems architect.
             </h2>
           </div>
 
-          <div className="relative border-l border-zinc-300 dark:border-zinc-800 pl-8 ml-4 space-y-12">
-            {/* Timeline Dot highlight animation */}
-            <div className="absolute top-0 bottom-0 left-0 w-[1px] bg-gradient-to-b from-zinc-400 to-transparent" />
-
-            <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="relative"
-            >
-              {/* Point on timeline */}
-              <span className="absolute -left-[37px] top-1.5 w-4 h-4 rounded-full border border-zinc-400 bg-white dark:bg-zinc-950 flex items-center justify-center">
-                <span className="w-1.5 h-1.5 rounded-full bg-zinc-900 dark:bg-zinc-100" />
-              </span>
-
-              <div className="p-6 max-w-2xl bg-transparent border-none relative z-10">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
-                  <div>
-                    <h3 className="text-lg font-bold font-sans text-zinc-900 dark:text-white">Sopra Steria</h3>
-                    <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">AI Project Intern</p>
-                  </div>
-                  <span className="text-xs font-mono text-zinc-400 bg-zinc-500/5 px-3 py-1 rounded border border-zinc-200/10 dark:border-zinc-800/10">
-                    Jun 2025 – Jul 2025
-                  </span>
-                </div>
-
-                <ul className="text-xs text-zinc-650 dark:text-zinc-400 space-y-3 list-disc pl-4 leading-relaxed">
-                  <li>
-                    Developed a high-performance RAG-based enterprise chatbot using LLMs, embedding retrievals, and optimized backend APIs for corporate knowledge base access.
-                  </li>
-                  <li>
-                    Built scalable pipelines for document processing, semantic chunking, indexing, and context validation, improving system reliability and response alignment.
-                  </li>
-                  <li>
-                    Assisted in model deployment experiments, profiling retrieval bottlenecks to reduce semantic search latency.
-                  </li>
-                </ul>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative"
-            >
-              {/* Point on timeline */}
-              <span className="absolute -left-[37px] top-1.5 w-4 h-4 rounded-full border border-zinc-400 bg-white dark:bg-zinc-950 flex items-center justify-center">
-                <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
-              </span>
-
-              <div className="p-6 max-w-2xl bg-transparent border-none relative z-10">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
-                  <div>
-                    <h3 className="text-lg font-bold font-sans text-zinc-900 dark:text-white">BML Munjal University</h3>
-                    <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">B.Tech — Data Science &amp; AI</p>
-                  </div>
-                  <span className="text-xs font-mono text-zinc-400 bg-zinc-500/5 px-3 py-1 rounded border border-zinc-200/10 dark:border-zinc-800/10">
-                    2023 – 2027
-                  </span>
-                </div>
-
-                <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                  Focusing on advanced algorithms, neural network design, natural language pipelines, software development lifecycle (SDLC), and data pipelines. Actively participating in national hackathons and innovative AI incubators.
-                </p>
-              </div>
-            </motion.div>
-          </div>
+          <InteractiveExperience />
         </div>
       </section>
 
       {/* 7. CONTACT SECTION */}
-      <section 
-        id="contact" 
+      <section
+        id="contact"
         className="py-32 px-6 md:px-12 relative z-0 transition-colors duration-1000"
         style={{ backgroundColor: "var(--color-contact)" }}
       >
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-            {/* Left side text details */}
-            <div className="lg:col-span-5 flex flex-col justify-between">
-              <div className="space-y-6">
-                <span className="text-xs font-mono tracking-widest text-zinc-500 dark:text-zinc-600 uppercase">// 07 Get In Touch</span>
-                <h2 className="text-4xl md:text-5xl font-sans font-bold text-white leading-tight">
-                  Let&apos;s build something premium.
-                </h2>
-                <p className="text-sm text-zinc-400 leading-relaxed max-w-sm">
-                  Seeking partnerships, interesting engineering projects, or high-impact opportunities in Product Engineering and AI.
-                </p>
-              </div>
-
-              {/* Socials & details */}
-              <div className="mt-12 space-y-6">
-                <div className="flex items-center gap-3 text-zinc-300">
-                  <Mail className="w-4 h-4 text-zinc-500" />
-                  <a href="mailto:kartavya.dev.23cse@bmu.edu.in" className="text-xs font-mono hover:text-white transition-colors">
-                    kartavya.dev.23cse@bmu.edu.in
-                  </a>
-                </div>
-                <div className="flex items-center gap-3 text-zinc-300">
-                  <MapPin className="w-4 h-4 text-zinc-500" />
-                  <span className="text-xs font-mono">Gurugram / Delhi NCR, India</span>
-                </div>
-
-                <div className="flex gap-4 pt-6 border-t border-zinc-800">
-                  <a 
-                    href="https://github.com/devokdev/" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="p-3 border border-zinc-800 rounded bg-[#1f1f1f] text-zinc-400 hover:text-white hover:border-zinc-700 hover:scale-105 transition-all duration-300"
-                  >
-                    <GithubIcon className="w-4 h-4" />
-                  </a>
-                  <a 
-                    href="https://www.linkedin.com/in/kartavyadev/" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="p-3 border border-zinc-800 rounded bg-[#1f1f1f] text-zinc-400 hover:text-white hover:border-zinc-700 hover:scale-105 transition-all duration-300"
-                  >
-                    <LinkedinIcon className="w-4 h-4" />
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Right side form */}
-            <div className="lg:col-span-7">
-              <div className="py-8 relative overflow-hidden z-10 border-t border-zinc-200/10 dark:border-zinc-800/20">
-                <AnimatePresence mode="wait">
-                  {!formSubmitted ? (
-                    <motion.form 
-                      key="form"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      onSubmit={handleFormSubmit}
-                      className="space-y-6"
-                    >
-                      <div className="space-y-2">
-                        <label htmlFor="name" className="text-[10px] font-mono uppercase tracking-widest text-zinc-400">Name</label>
-                        <input
-                          id="name"
-                          type="text"
-                          required
-                          value={formData.name}
-                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                          className="w-full bg-transparent border-b border-zinc-200/15 dark:border-zinc-800/30 focus:border-zinc-400 dark:focus:border-zinc-600 outline-none p-3 text-sm text-zinc-200 font-mono transition-colors"
-                          placeholder="Your name"
-                        />
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <label htmlFor="email" className="text-[10px] font-mono uppercase tracking-widest text-zinc-400">Email Address</label>
-                        <input
-                          id="email"
-                          type="email"
-                          required
-                          value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          className="w-full bg-transparent border-b border-zinc-200/15 dark:border-zinc-800/30 focus:border-zinc-400 dark:focus:border-zinc-600 outline-none p-3 text-sm text-zinc-200 font-mono transition-colors"
-                          placeholder="your.email@domain.com"
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <label htmlFor="message" className="text-[10px] font-mono uppercase tracking-widest text-zinc-400">Message</label>
-                        <textarea
-                          id="message"
-                          required
-                          rows={4}
-                          value={formData.message}
-                          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                          className="w-full bg-transparent border-b border-zinc-200/15 dark:border-zinc-800/30 focus:border-zinc-400 dark:focus:border-zinc-600 outline-none p-3 text-sm text-zinc-200 font-mono transition-colors resize-none"
-                          placeholder="Tell me about your product goals..."
-                        />
-                      </div>
-
-                      <button
-                        type="submit"
-                        className="flex items-center gap-3 bg-zinc-100 hover:bg-white text-zinc-950 px-6 py-3.5 rounded font-mono text-xs uppercase tracking-wider transition-all duration-300 w-full justify-center group font-bold"
-                      >
-                        Send Proposal
-                        <Send className="w-3.5 h-3.5 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
-                      </button>
-                    </motion.form>
-                  ) : (
-                    <motion.div 
-                      key="success"
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="py-16 text-center space-y-4"
-                    >
-                      <div className="inline-flex p-3 bg-zinc-800 rounded-full text-emerald-400 border border-zinc-700">
-                        <CheckCircle className="w-8 h-8" />
-                      </div>
-                      <h3 className="text-xl font-bold font-sans text-white">Proposal Dispatched</h3>
-                      <p className="text-xs font-mono text-zinc-400 max-w-xs mx-auto leading-relaxed">
-                        Thank you for reaching out, {formData.name}. I will review your query and reply within 24 hours.
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-24 pt-8 border-t border-zinc-900 flex flex-col sm:flex-row items-center justify-between text-[10px] font-mono text-zinc-600 gap-4">
-            <p>© {new Date().getFullYear()} Kartavya Dev. All rights reserved.</p>
-            <p>Designed with architectural precision &amp; code integrity.</p>
-          </div>
-        </div>
+        <InteractiveContact />
       </section>
     </div>
   );

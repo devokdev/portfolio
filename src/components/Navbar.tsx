@@ -53,10 +53,10 @@ export default function Navbar() {
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${
+      className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-6xl transition-all duration-500 border rounded-full ${
         isScrolled
-          ? "bg-white/70 dark:bg-[#181818]/70 backdrop-blur-md py-4 border-zinc-200/50 dark:border-zinc-800/50"
-          : "bg-transparent py-6 border-transparent"
+          ? "bg-white/75 dark:bg-[#181818]/75 backdrop-blur-md py-3.5 border-zinc-400 dark:border-zinc-800/80 shadow-md"
+          : "bg-transparent py-4.5 border-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
@@ -76,15 +76,17 @@ export default function Navbar() {
             <button
               key={item.id}
               onClick={() => scrollTo(item.id)}
-              className="relative text-sm font-sans tracking-wide transition-colors duration-300 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white py-1"
+              className="relative text-sm font-sans tracking-wide transition-colors duration-300 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white py-1"
             >
               {item.label}
               {activeSection === item.id && (
                 <motion.span
                   layoutId="activeDot"
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-zinc-900 dark:bg-white"
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 flex items-center justify-center"
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                />
+                >
+                  <span className="w-1.5 h-1.5 rotate-45 bg-zinc-900 dark:bg-white block" />
+                </motion.span>
               )}
             </button>
           ))}

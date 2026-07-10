@@ -6,12 +6,12 @@
   :root {
     /* Explicit Color Variables - Light Mode */
     --bg-primary: #f4f3ef;
-    --bg-secondary: #eae8e3;
+    --bg-secondary: #e5e3db;
     --text-primary: #1c1c1a;
-    --text-secondary: #5c5c5a;
-    --border-color: #eae8e3;
-    --grid-line-color: rgba(28, 28, 26, 0.006);
-    --grid-node-color: rgba(28, 28, 26, 0.012);
+    --text-secondary: #4c4c4a;
+    --border-color: #a3a096;
+    --grid-line-color: rgba(28, 28, 26, 0.02);
+    --grid-node-color: rgba(28, 28, 26, 0.03);
 
     --background: var(--bg-primary);
     --background-sec: var(--bg-secondary);
@@ -26,9 +26,9 @@
     --color-contact: #1c1c1a;
     
     --card-bg: #ffffff;
-    --fold-bg: #e6e5e0;
-    --shadow-color: transparent;
-    --shadow-md-color: transparent;
+    --fold-bg: #dad9d2;
+    --shadow-color: rgba(0, 0, 0, 0.05);
+    --shadow-md-color: rgba(0, 0, 0, 0.08);
   }
 
   .dark {
