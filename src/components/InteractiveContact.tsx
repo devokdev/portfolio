@@ -114,35 +114,35 @@ export default function InteractiveContact() {
         {/* Left Side: General project details / proposal details */}
         <div className="lg:col-span-5 flex flex-col justify-between space-y-12">
           <div className="space-y-6">
-            <span className="text-base md:text-lg font-mono font-bold tracking-wider text-zinc-550 dark:text-zinc-500 uppercase">
+            <span className="text-base md:text-lg font-mono font-bold tracking-wider text-zinc-400 dark:text-zinc-500 uppercase">
               // 07 Dispatch Proposal
             </span>
-            <h2 className="text-4xl md:text-5xl font-sans font-bold text-zinc-900 dark:text-white leading-tight">
+            <h2 className="text-4xl md:text-5xl font-sans font-bold text-white leading-tight">
               Let&apos;s build something premium.
             </h2>
-            <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed max-w-sm">
+            <p className="text-sm text-zinc-300 leading-relaxed max-w-sm">
               Seeking partnerships, interesting engineering projects, or high-impact opportunities in Product Engineering and AI.
             </p>
           </div>
 
           <div className="space-y-6">
-            <div className="flex items-center gap-3 text-zinc-800 dark:text-zinc-300">
-              <Mail className="w-4 h-4 text-zinc-500" />
+            <div className="flex items-center gap-3 text-zinc-300">
+              <Mail className="w-4 h-4 text-zinc-400" />
               <a href="mailto:kartavyadev3@gmail.com" className="text-xs font-mono hover:underline">
                 kartavyadev3@gmail.com
               </a>
             </div>
-            <div className="flex items-center gap-3 text-zinc-800 dark:text-zinc-300">
-              <MapPin className="w-4 h-4 text-zinc-500" />
+            <div className="flex items-center gap-3 text-zinc-300">
+              <MapPin className="w-4 h-4 text-zinc-400" />
               <span className="text-xs font-mono">Gurugram / Delhi NCR, India</span>
             </div>
 
-            <div className="flex gap-4 pt-6 border-t border-zinc-300 dark:border-zinc-850">
+            <div className="flex gap-4 pt-6 border-t border-zinc-800">
               <a 
                 href="https://github.com/devokdev/" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="p-3 border border-zinc-400 dark:border-zinc-800 rounded-lg bg-white dark:bg-[#0c0c0c] text-zinc-700 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:border-zinc-650 dark:hover:border-zinc-700 transition-all"
+                className="p-3 border border-zinc-800 rounded-lg bg-[#0c0c0c] text-zinc-400 hover:text-white hover:border-zinc-700 transition-all"
               >
                 <GithubIcon className="w-4 h-4" />
               </a>
@@ -150,7 +150,7 @@ export default function InteractiveContact() {
                 href="https://www.linkedin.com/in/kartavyadev/" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="p-3 border border-zinc-400 dark:border-zinc-800 rounded-lg bg-white dark:bg-[#0c0c0c] text-zinc-700 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:border-zinc-650 dark:hover:border-zinc-700 transition-all"
+                className="p-3 border border-zinc-800 rounded-lg bg-[#0c0c0c] text-zinc-400 hover:text-white hover:border-zinc-700 transition-all"
               >
                 <LinkedinIcon className="w-4 h-4" />
               </a>

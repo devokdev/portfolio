@@ -235,7 +235,7 @@ export default function Home() {
       title: "KishanBhai",
       subtitle: "AI Agricultural Assistance Platform",
       tech: ["React.js", "Next.js", "Firebase", "Gemini AI", "Flutter"],
-      metric: "IIT Ropar Incubation Support",
+      metric: "IIT Ropar Incubation Offered",
       desc: "Multilingual AI-powered platform featuring crop disease detection, weather forecasts, and voice assistance across 5 Indian languages to mitigate crop loss.",
       github: "https://github.com/devokdev/KishanBhai",
       live: "https://kishan-bhai.vercel.app/"

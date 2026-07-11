@@ -63,8 +63,8 @@ const PROJECTS_DATA: ProjectData[] = [
     beforeVal: "10 Days",
     afterLabel: "AI Disease Detection",
     afterVal: "1.5s / Image",
-    metricLabel: "Incubation Supported By",
-    metricVal: "IIT Ropar Support",
+    metricLabel: "Incubation Offered By",
+    metricVal: "IIT Ropar Offered",
     desc: "Multilingual AI-powered platform featuring crop disease detection, weather forecasts, and voice assistance across 5 Indian languages to mitigate crop loss.",
     tech: ["React.js", "Next.js", "Firebase", "Gemini AI", "Flutter"],
     github: "https://github.com/devokdev/KishanBhai",
@@ -105,6 +105,32 @@ const PROJECTS_DATA: ProjectData[] = [
       { label: "ROUGE-L Score", val: "+8.4%" },
       { label: "Domain Alignment", val: "+47%" },
       { label: "Query Execution time", val: "14ms" }
+    ]
+  },
+  {
+    id: "04",
+    title: "Invisible Medical Watermarking",
+    subtitle: "Hybrid DWT-CNN-Transformer Framework",
+    beforeLabel: "Traditional Embedding",
+    beforeVal: "High BER",
+    afterLabel: "DWT-CNN-Transformer",
+    afterVal: "0 BER / 10+ Attacks",
+    metricLabel: "Manuscript Submitted To",
+    metricVal: "IEEE MultiMedia",
+    desc: "Developed a multimodal medical image watermarking framework using DWT, CNNs, and Transformers for robust watermark embedding. Achieved 52.74 dB PSNR, 0.994 SSIM, and 0 BER on 1,000+ images under 10+ distortion attacks. Authored and submitted a manuscript to IEEE Multimedia (under review).",
+    tech: ["PyTorch", "OpenCV", "CNNs", "Transformers", "Computer Vision"],
+    github: "https://github.com/devokdev/Invisible_Image_Watermarking",
+    live: "https://github.com/devokdev/Invisible_Image_Watermarking",
+    systemFlow: [
+      { label: "DWT Frequency Mapping", detail: "Embeds watermark info inside frequency sub-bands" },
+      { label: "CNN Feature Extract", detail: "Extracts resilient spatial landmarks from host" },
+      { label: "Transformer Attention", detail: "Applies self-attention blocks to model pixel dependencies" },
+      { label: "Attack Simulation", detail: "Evaluates extraction integrity under distortion channels" }
+    ],
+    detailedMetrics: [
+      { label: "Peak Signal-to-Noise Ratio", val: "52.74 dB" },
+      { label: "Structural Similarity (SSIM)", val: "0.994" },
+      { label: "Bit Error Rate (BER)", val: "0" }
     ]
   }
 ];
@@ -190,6 +216,9 @@ export default function InteractiveProjects() {
         } else if (project.id === "03") {
           borderClass = "border-orange-400/45 dark:border-orange-900/40 hover:border-orange-500/80 dark:hover:border-orange-700/80 shadow-[0_4px_15px_rgba(249,115,22,0.04)] dark:shadow-[0_8px_30px_rgba(249,115,22,0.08)]";
           lCornerClass = "border-orange-500 dark:border-orange-500/60";
+        } else if (project.id === "04") {
+          borderClass = "border-yellow-400/40 dark:border-yellow-900/40 hover:border-yellow-500/80 dark:hover:border-yellow-700/80 shadow-[0_4px_15px_rgba(234,179,8,0.04)] dark:shadow-[0_8px_30px_rgba(234,179,8,0.08)]";
+          lCornerClass = "border-yellow-500 dark:border-yellow-500/60";
         }
 
         return (
